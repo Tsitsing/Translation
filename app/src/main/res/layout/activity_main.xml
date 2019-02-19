@@ -6,6 +6,17 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
+    <FrameLayout
+        android:id="@+id/nav_fragment_layout"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/nav_radio_group"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+    </FrameLayout>
+
     <RadioGroup
         android:id="@+id/nav_radio_group"
         android:layout_width="0dp"
@@ -49,4 +60,5 @@
             android:drawableTop="@drawable/nav_my_selector"
             android:text="@string/nav_my" />
     </RadioGroup>
+
 </android.support.constraint.ConstraintLayout>
