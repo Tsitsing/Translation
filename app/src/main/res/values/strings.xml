@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Translation</string>
+    <string name="nav_home">Home</string>
+    <string name="nav_voice">Voice</string>
+    <string name="nav_picture">Picture</string>
+    <string name="nav_dictionary">Dictionnary</string>
+    <string name="nav_my">My</string>
+</resources>

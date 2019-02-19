@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">翻译</string>
+    <string name="nav_picture">图片翻译</string>
+    <string name="nav_dictionary">词典</string>
+    <string name="nav_home">主页</string>
+    <string name="nav_my">我的</string>
+    <string name="nav_voice">语音翻译</string>
+</resources>

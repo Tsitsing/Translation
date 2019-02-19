@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <RadioGroup
+        android:id="@+id/nav_radio_group"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:background="@drawable/shape_round"
+        android:checkedButton="@+id/nav_home"
+        android:elevation="8dp"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <RadioButton
+            android:id="@+id/nav_home"
+            style="@style/Custom.NavRadioButton"
+            android:drawableTop="@drawable/nav_home_selector"
+            android:text="@string/nav_home" />
+
+        <RadioButton
+            android:id="@+id/nav_voice"
+            style="@style/Custom.NavRadioButton"
+            android:drawableTop="@drawable/nav_voice_selector"
+            android:text="@string/nav_voice" />
+
+        <RadioButton
+            android:id="@+id/nav_picture"
+            style="@style/Custom.NavRadioButton"
+            android:drawableTop="@drawable/nav_picture_selector"
+            android:text="@string/nav_picture" />
+
+        <RadioButton
+            android:id="@+id/nav_dictionary"
+            style="@style/Custom.NavRadioButton"
+            android:drawableTop="@drawable/nav_dictionary_selector"
+            android:text="@string/nav_dictionary" />
+
+        <RadioButton
+            android:id="@+id/nav_my"
+            style="@style/Custom.NavRadioButton"
+            android:drawableTop="@drawable/nav_my_selector"
+            android:text="@string/nav_my" />
+    </RadioGroup>
+</android.support.constraint.ConstraintLayout>
