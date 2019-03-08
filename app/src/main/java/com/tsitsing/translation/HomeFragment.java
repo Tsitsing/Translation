@@ -46,7 +46,6 @@ public class HomeFragment extends Fragment {
     }
 
     private Spinner spinnerSource,spinnerDest;
-    private Button btnTranslate;
     private EditText textInput;
     private TextView textResult;
 
@@ -80,22 +79,17 @@ public class HomeFragment extends Fragment {
         //用于存放简单数据
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(getActivity(),
                 android.R.layout.simple_spinner_item,getData());
+        ArrayAdapter<String> arrayAdapter2 = new ArrayAdapter<String>(getActivity(),
+                android.R.layout.simple_spinner_item,getData2());
         spinnerSource.setAdapter(arrayAdapter);
-        spinnerDest.setAdapter(arrayAdapter);
+        spinnerDest.setAdapter(arrayAdapter2);
+
+        //设置源语言选择监听事件
         spinnerSource.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                switch (parent.getItemAtPosition(position).toString()){
-                    case "中文":
-                        from = "zh";
-                        break;
-                    case "英文":
-                        from = "en";
-                        break;
-                    case "日语":
-                        from = "jp";
-                        break;
-                }
+                SelectLanguage selectFrom = new SelectLanguage();
+                from = selectFrom.getLangCode(parent.getItemAtPosition(position).toString());
             }
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
@@ -103,22 +97,13 @@ public class HomeFragment extends Fragment {
             }
         });
 
+        //设置目标语言选择监听事件
         spinnerDest.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                switch (parent.getItemAtPosition(position).toString()){
-                    case "中文":
-                        to = "zh";
-                        break;
-                    case "英文":
-                        to = "en";
-                        break;
-                    case "日语":
-                        to = "jp";
-                        break;
-                }
+                SelectLanguage selectTo = new SelectLanguage();
+                to = selectTo.getLangCode(parent.getItemAtPosition(position).toString());
             }
-
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
 
@@ -129,9 +114,23 @@ public class HomeFragment extends Fragment {
 
     private List<String> getData(){
         List<String> list = new ArrayList<String>();
+        list.add("自动");
         list.add("中文");
         list.add("英文");
         list.add("日语");
+        list.add("法语");
+        list.add("韩语");
+        list.add("繁体");
+        return list;
+    }
+    private List<String> getData2(){
+        List<String> list = new ArrayList<String>();
+        list.add("中文");
+        list.add("英文");
+        list.add("日语");
+        list.add("法语");
+        list.add("韩语");
+        list.add("繁体");
         return list;
     }
 
