@@ -1,5 +1,10 @@
 package com.tsitsing.translation;
 
+import android.Manifest;
+import android.app.Activity;
+import android.content.pm.PackageManager;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -20,10 +25,35 @@ public class MainActivity extends AppCompatActivity {
     private MyFragment myFragment;
     private RadioGroup navRadioGroup;
 
+    private final int REQUEST_CODE = 1;
+
+    //权限请求
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        switch (requestCode) {
+            case REQUEST_CODE: {
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    Log.i("request", "success");
+                } else {
+                    Log.i("request", "failed");
+                }
+            }
+        }
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        if (PermissionUtil.isOwnPermission(this, Manifest.permission.RECORD_AUDIO)) {
+            //如果已经拥有改权限
+            Log.i("request","own");
+        } else {
+            //没有改权限，需要进行请求
+            PermissionUtil.requestPermission(this, Manifest.permission.RECORD_AUDIO, REQUEST_CODE);
+        }
 
         initHomeFragment();//开启时默认的fragment
         navRadioGroup = findViewById(R.id.nav_radio_group);

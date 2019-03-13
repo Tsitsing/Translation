@@ -7,4 +7,7 @@
     <string name="nav_my">My</string>
     <string name="btn_translate">Translate</string>
     <string name="text_input">Input text</string>
+    <string name="btn_start">start</string>
+    <string name="btn_stop">stop</string>
+    <string name="toast_start_recognize">start recognize</string>
 </resources>

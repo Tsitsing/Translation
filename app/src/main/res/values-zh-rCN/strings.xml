@@ -8,4 +8,7 @@
     <string name="nav_voice">语音翻译</string>
     <string name="text_input">输入文本</string>
     <string name="btn_translate">翻译</string>
+    <string name="btn_start">开始</string>
+    <string name="btn_stop">结束</string>
+    <string name="toast_start_recognize">开始识别</string>
 </resources>
