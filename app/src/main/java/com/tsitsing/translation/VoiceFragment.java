@@ -9,11 +9,11 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -37,10 +37,10 @@ public class VoiceFragment extends Fragment {
         // Required empty public constructor
     }
 
-    Button btn_start;
-    Button btn_stop;
+    MyButton buttonVoiceTranslate;
     TextView textTranslateResult;
     TextView textRecognizeResult;
+    FiveLine fiveLine;
 
     private Spinner spinnerVoiceSource,spinnerVoiceDest;
     private String from = "en";
@@ -73,6 +73,8 @@ public class VoiceFragment extends Fragment {
 
         spinnerVoiceSource = view.findViewById(R.id.spinner_voice_source);
         spinnerVoiceDest = view.findViewById(R.id.spinner_voice_dest);
+
+        //设置spinner的内容
         spinnerVoiceSource.setAdapter(arrayAdapter);
         spinnerVoiceDest.setAdapter(arrayAdapter2);
 
@@ -112,12 +114,12 @@ public class VoiceFragment extends Fragment {
             @Override
             public void onRecognized(int resultType, RecognitionResult recognitionResult) {
                 if(resultType == OnRecognizeListener.TYPE_PARTIAL_RESULT){
-                    //中间结果
-                    Log.d("----------","中间识别结果:"+recognitionResult.getAsrResult());
+//                    中间结果
+//                    Log.d("----------","中间识别结果:"+recognitionResult.getAsrResult());
                 }else if (resultType == OnRecognizeListener.TYPE_FINAL_RESULT){
                     if (recognitionResult.getError() == 0) {
-                        Log.d("----------", "最终识别结果:" +recognitionResult.getAsrResult());
-                        Log.d("----------","翻译结果:"+recognitionResult.getTransResult());
+//                        Log.d("----------", "最终识别结果:" +recognitionResult.getAsrResult());
+//                        Log.d("----------","翻译结果:"+recognitionResult.getTransResult());
                         textRecognizeResult.setText(recognitionResult.getAsrResult());
                         textTranslateResult.setText(recognitionResult.getTransResult());
                     }else{
@@ -127,23 +129,29 @@ public class VoiceFragment extends Fragment {
             }
         });
 
-        btn_start =  view.findViewById(R.id.button_start);
-        btn_start.setOnClickListener(new View.OnClickListener() {
+        fiveLine = view.findViewById(R.id.fiveLine);
+        //设置语音按钮监听事件
+        buttonVoiceTranslate = view.findViewById(R.id.button_voice_translate);
+        buttonVoiceTranslate.setOnTouchListener(new View.OnTouchListener() {
             @Override
-            public void onClick(View v) {
-                Toast.makeText(getActivity(), "开始识别", Toast.LENGTH_SHORT).show();
-                Log.d("------from------", from);
-                Log.d("-------to-------", to);
-                client.startRecognize(from,to);
+            public boolean onTouch(View v, MotionEvent event) {
+                if (event.getAction() == MotionEvent.ACTION_DOWN){
+                    Log.d("++++++", "down");
+                    fiveLine.setVisibility(View.VISIBLE);
+                    buttonVoiceTranslate.setVisibility(View.INVISIBLE);
+                    client.startRecognize(from,to);
+                }else if ((event.getAction() == MotionEvent.ACTION_UP) || (event.getAction() == MotionEvent.ACTION_CANCEL)){
+                    Log.d("++++++", "up");
+                    fiveLine.setVisibility(View.INVISIBLE);
+                    buttonVoiceTranslate.setVisibility(View.VISIBLE);
+                    client.stopRecognize();
+                }
+                buttonVoiceTranslate.performClick();
+                return true;
             }
         });
-        btn_stop = view.findViewById(R.id.button_stop);
-        btn_stop.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                client.stopRecognize();
-            }
-        });
+
+
         return view;
     }
 
@@ -151,12 +159,16 @@ public class VoiceFragment extends Fragment {
         List<String> list = new ArrayList<String>();
         list.add("英文");
         list.add("中文");
+        list.add("日语");
         return list;
     }
     private List<String> getData2(){
         List<String> list = new ArrayList<String>();
         list.add("中文");
         list.add("英文");
+        list.add("日语");
+        list.add("韩语");
+        list.add("法语");
         return list;
     }
 }
