@@ -33,4 +33,5 @@ dependencies {
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
     implementation(name: 'trans-asr-sdk-v1.0.4-0', ext: 'aar')
+    implementation(name: 'trans-ocr-sdk_v1.0.1', ext: 'aar')
 }

@@ -6,14 +6,14 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 
 //权限请求封装类
-public class PermissionUtil {
+class PermissionUtil {
 
-    public static boolean isOwnPermission(Activity activity, String permission){
+    static boolean isOwnPermission(Activity activity, String permission){
         return ContextCompat.checkSelfPermission(activity,
                 permission)
                 == PackageManager.PERMISSION_GRANTED;
     }
-    public static void requestPermission(Activity activity, String permission,int requestCode) {
+    static void requestPermission(Activity activity, String permission, int requestCode) {
         if (ContextCompat.checkSelfPermission(activity,
                 permission)
                 != PackageManager.PERMISSION_GRANTED) {

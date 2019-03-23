@@ -46,17 +46,17 @@ public class VoiceFragment extends Fragment {
     private String from = "en";
     private String to = "zh";
 
-    //申请录音权限
-    private static final int GET_RECORD_AUDIO = 1;
-    private static String[] PERMISSION_AUDIO = {
-            Manifest.permission.RECORD_AUDIO
-    };
-    public static void verifyAudioPermissions(Activity activity){
-        int permission = ActivityCompat.checkSelfPermission(activity,Manifest.permission.RECORD_AUDIO);
-        if (permission != PackageManager.PERMISSION_GRANTED){
-            ActivityCompat.requestPermissions(activity,PERMISSION_AUDIO,GET_RECORD_AUDIO);
-        }
-    }
+//    //申请录音权限
+//    private static final int GET_RECORD_AUDIO = 1;
+//    private static String[] PERMISSION_AUDIO = {
+//            Manifest.permission.RECORD_AUDIO
+//    };
+//    public static void verifyAudioPermissions(Activity activity){
+//        int permission = ActivityCompat.checkSelfPermission(activity,Manifest.permission.RECORD_AUDIO);
+//        if (permission != PackageManager.PERMISSION_GRANTED){
+//            ActivityCompat.requestPermissions(activity,PERMISSION_AUDIO,GET_RECORD_AUDIO);
+//        }
+//    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

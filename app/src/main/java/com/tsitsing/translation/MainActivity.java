@@ -2,8 +2,10 @@ package com.tsitsing.translation;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -16,6 +18,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.RadioGroup;
 
+
 public class MainActivity extends AppCompatActivity {
 
     private HomeFragment homeFragment;
@@ -25,14 +28,14 @@ public class MainActivity extends AppCompatActivity {
     private MyFragment myFragment;
     private RadioGroup navRadioGroup;
 
-    private final int REQUEST_CODE = 1;
+    private final int RECORD_REQUEST_CODE = 1;
 
-    //权限请求
+    //判断权限是否已授权
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         switch (requestCode) {
-            case REQUEST_CODE: {
+            case RECORD_REQUEST_CODE: {
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     Log.i("request", "success");
                 } else {
@@ -41,6 +44,7 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,8 +55,8 @@ public class MainActivity extends AppCompatActivity {
             //如果已经拥有改权限
             Log.i("request","own");
         } else {
-            //没有改权限，需要进行请求
-            PermissionUtil.requestPermission(this, Manifest.permission.RECORD_AUDIO, REQUEST_CODE);
+            //没有该权限，需要进行请求
+            PermissionUtil.requestPermission(this, Manifest.permission.RECORD_AUDIO, RECORD_REQUEST_CODE);
         }
 
         initHomeFragment();//开启时默认的fragment
