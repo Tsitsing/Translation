@@ -2,6 +2,8 @@ package com.tsitsing.translation;
 
 
 import android.Manifest;
+import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -10,11 +12,13 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
+import android.os.Message;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -23,18 +27,32 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.PopupWindow;
+import android.widget.TextView;
+import android.widget.Toast;
 
-import com.baidu.translate.ocr.OcrClient;
-import com.baidu.translate.ocr.OcrClientFactory;
-import com.baidu.translate.ocr.entity.OcrResult;
+import com.baidu.ocr.sdk.OCR;
+import com.baidu.ocr.sdk.OnResultListener;
+import com.baidu.ocr.sdk.exception.OCRError;
+import com.baidu.ocr.sdk.model.AccessToken;
+import com.baidu.ocr.sdk.model.GeneralParams;
+import com.baidu.ocr.sdk.model.GeneralResult;
+import com.baidu.ocr.sdk.model.WordSimple;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
 import static android.app.Activity.RESULT_OK;
+
+import android.util.Base64;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 
 /**
@@ -48,11 +66,21 @@ public class PictureFragment extends Fragment {
     private static final int WRITE_REQUEST_CODE = 4;
     private static final int RESULT_LOAD_IMAGE = 10;
     private static final int TAKE_PICTURE = 20;
+    private static final int MESSAGE_WHAT = 100;
+
+    private static final String TAG = "MyTAG";
+
     private File file;
     private Uri photoUri;
-    Button button;
+    private Button button;
     private String path = "";
-    PictureCallBack callBack;
+    private BasicCallBack callBack, translateCallBack;
+    private Bitmap bitmap;
+    private String ocrResult = "";
+    private String translateResult = "hehe";
+    private boolean hasGotToken = false;
+    private String from = "zh";
+    private String to = "en";
 
     public PictureFragment() {
         // Required empty public constructor
@@ -106,10 +134,9 @@ public class PictureFragment extends Fragment {
             PermissionUtil.requestPermission(this.getActivity(), Manifest.permission.READ_EXTERNAL_STORAGE, READ_REQUEST_CODE);
         }
 
-        if (PermissionUtil.isOwnPermission(this.getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE)){
+        if (PermissionUtil.isOwnPermission(this.getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
             Log.i("write", "own");
-        }
-        else {
+        } else {
             Log.i("write", "not");
             PermissionUtil.requestPermission(this.getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE, WRITE_REQUEST_CODE);
         }
@@ -121,26 +148,110 @@ public class PictureFragment extends Fragment {
                 selectPicture();
             }
         });
+
+        initAccessToken();
+
         return view;
     }
 
-    private void selectPicture() {
-        callBack = new PictureCallBack() {
+    //handler可能会存在内存泄露，稍后解决
+    @SuppressLint("HandlerLeak")
+    private Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what) {
+                case MESSAGE_WHAT:
+//                    Log.d(TAG, "gotMsg");
+//                    Log.d("handled", msg.obj.toString());
+                    try {
+                        JSONObject jsonObject = new JSONObject(msg.obj.toString());
+                        JSONArray jsonArray  = jsonObject.getJSONArray("words_result");
+                        if (jsonArray.length() != 0) {
+                            ocrResult = "";//全局变量，先将其置空
+                            for (int i = 0 ; i<jsonArray.length() ; i++) {
+                                JSONObject extractObject = new JSONObject(jsonArray.getJSONObject(i).toString());
+                                ocrResult += (" " + extractObject.getString("words"));
+                            }
+                        }
+                        Log.d("ocrResult", ocrResult);
+                        final TranslateText translateText = new TranslateText();
+                        //回调方法，translateText 完成时会调用
+                        translateCallBack = new BasicCallBack() {
+                            @Override
+                            public void doSuccess() {
+
+                            }
+
+                            @Override
+                            public void doSuccess(String string) {
+                                translateResult = string;
+                                TextView textView = getView().findViewById(R.id.textView);
+                                textView.setText(string);
+                                Log.d("translateResult", translateResult);
+                            }
+
+                            @Override
+                            public void doFail() {
+
+                            }
+                        };
+                        //其中传入一个回调对象translateCallBack
+                        translateText.transRequest(translateCallBack,getContext(), ocrResult, from, to);
+                    }catch (JSONException e){
+                        e.printStackTrace();
+                    }
+                    break;
+            }
+        }
+    };
+
+
+    //进行图片文字识别
+    private void sendOrcResult() {
+        Log.d(TAG, "sendORCResult");
+        new Thread() {
             @Override
-            public void doSuccess(Bitmap bitmap) {
-                OcrClient client = OcrClientFactory.create(getContext(), "20190211000265342", "P0tTPdrqOvttQqAeRqhF");
-                OcrResult result = client.getOcrResult("Language.ZH", "Language.EN", bitmap);
-                if (result.getContents() != null) {
-                    String content = result.getContents().toString();
-                    Log.d("content", content);
-//                Log.d("orcResult", result.toString());
-                }else{
-                    Log.d("content", "is null");
-                }
+            public void run() {
+                Log.d(TAG, "ThreadRun");
+//                OcrClient client = OcrClientFactory.create(getContext(), "20190211000265342", "P0tTPdrqOvttQqAeRqhF");
+//                OcrResult result = client.getOcrResult("Language.ZH", "Language.EN", bitmap);
+                //output information
+//                if (result.getSumDst() != null) {
+//                    Log.d("src", result.getSumDst());
+//                } else {
+//                    Log.d("TAG", "dst is null");
+//                }
+                recognizeChar(path, getContext(), new ServiceListener() {
+                    @Override
+                    public void onResult(String result) {
+                        Log.d(TAG, result);
+                        Message message = handler.obtainMessage(MESSAGE_WHAT);
+                        message.obj = result;
+                        handler.sendMessage(message);
+                    }
+                });
+            }
+        }.start();
+    }
+
+    private void selectPicture() {
+        callBack = new BasicCallBack() {
+            @Override
+            public void doSuccess() {
+//                String picString = imageToBase64(path);
+//                Log.d(TAG, picString);
+                Log.d(TAG, "doSuccess");
+                sendOrcResult();
             }
 
             @Override
             public void doFail() {
+
+            }
+
+            @Override
+            public void doSuccess(String string) {
 
             }
         };
@@ -163,9 +274,9 @@ public class PictureFragment extends Fragment {
             case REQUEST_CROP_IMAGE:
                 if (resultCode == RESULT_OK && data != null) {
                     if (path != null && path.length() != 0) {
-                        Bitmap bitmap = BitmapFactory.decodeFile(path);
+                        bitmap = BitmapFactory.decodeFile(path);
                         if (callBack != null) {
-                            callBack.doSuccess(bitmap);
+                            callBack.doSuccess();
                         }
                     }
                 }
@@ -292,5 +403,113 @@ public class PictureFragment extends Fragment {
         lp.alpha = 0.5f;
         getActivity().getWindow().setAttributes(lp);
         popupWindow.showAtLocation(view, Gravity.BOTTOM, 0, 50);
+    }
+
+    /**
+     * 以license文件方式初始化
+     */
+    private void initAccessToken() {
+        OCR.getInstance(this.getActivity()).initAccessToken(new OnResultListener<AccessToken>() {
+            @Override
+            public void onResult(AccessToken accessToken) {
+                String token = accessToken.getAccessToken();
+                hasGotToken = true;
+            }
+
+            @Override
+            public void onError(OCRError error) {
+                error.printStackTrace();
+            }
+        }, this.getContext());
+    }
+
+    /**
+     * 自定义license的文件路径和文件名称，以license文件方式初始化
+     */
+    private void initAccessTokenLicenseFile() {
+        OCR.getInstance(this.getActivity()).initAccessToken(new OnResultListener<AccessToken>() {
+            @Override
+            public void onResult(AccessToken accessToken) {
+                String token = accessToken.getAccessToken();
+                hasGotToken = true;
+            }
+
+            @Override
+            public void onError(OCRError error) {
+                error.printStackTrace();
+            }
+        }, "aip.license", this.getContext());
+    }
+
+    private boolean checkTokenStatus() {
+        if (!hasGotToken) {
+            Toast.makeText(this.getActivity(), "token还未成功获取", Toast.LENGTH_LONG).show();
+        }
+        return hasGotToken;
+    }
+
+    /**
+     * 将图片转换成Base64编码的字符串
+     */
+    public static String imageToBase64(String path) {
+        if (TextUtils.isEmpty(path)) {
+            return null;
+        }
+        InputStream is = null;
+        byte[] data = null;
+        String result = null;
+        try {
+            is = new FileInputStream(path);
+            //创建一个字符流大小的数组。
+            data = new byte[is.available()];
+            //写入数组
+            is.read(data);
+            //用默认的编码格式进行编码
+            result = Base64.encodeToString(data, Base64.DEFAULT);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (null != is) {
+                try {
+                    is.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+
+        }
+        return result;
+    }
+
+    //文字识别
+    public static void recognizeChar (String path, Context context, final ServiceListener listener) {
+        GeneralParams params = new GeneralParams();
+        params.setDetectDirection(true);
+        params.setDetectDirection(true);
+        params.setVertexesLocation(true);
+        params.setImageFile(new File(path));
+
+        OCR.getInstance(context).recognizeAccurateBasic(params, new OnResultListener<GeneralResult>() {
+            @Override
+            public void onResult(GeneralResult generalResult) {
+                StringBuilder sb = new StringBuilder();
+                for (WordSimple wordSimple : generalResult.getWordList()) {
+                    // wordSimple不包含位置信息
+                    WordSimple word = wordSimple;
+                    sb.append(word.getWords());
+                    sb.append("\n");
+                }
+                listener.onResult(generalResult.getJsonRes());
+            }
+
+            @Override
+            public void onError(OCRError ocrError) {
+                listener.onResult(ocrError.getMessage());
+            }
+        });
+    }
+
+    interface ServiceListener {
+        public void onResult(String result);
     }
 }
