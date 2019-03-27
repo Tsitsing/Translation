@@ -56,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
             Log.i("request","own");
         } else {
             //没有该权限，需要进行请求
-            PermissionUtil.requestPermission(this, Manifest.permission.RECORD_AUDIO, RECORD_REQUEST_CODE);
+            PermissionUtil.requestPermission(this,new String[] {Manifest.permission.RECORD_AUDIO}, RECORD_REQUEST_CODE);
         }
 
         initHomeFragment();//开启时默认的fragment
