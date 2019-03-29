@@ -7,7 +7,16 @@
     <string name="nav_my">My</string>
     <string name="btn_translate">Translate</string>
     <string name="text_input">Input text</string>
+    <string name="toast_start_recognize">start recognize</string>
+    <string name="content_description_picture_translate">the picture was translated</string>
+    <string name="recognize_result">Recognize result</string>
+    <string name="translate_result">Translate result</string>
+    <!--button name beginning-->
+    <string name="btn_translate_picture">Translate Picture</string>
     <string name="btn_start">start</string>
     <string name="btn_stop">stop</string>
-    <string name="toast_start_recognize">start recognize</string>
+    <string name="btn_album">Select from local album</string>
+    <string name="btn_photo">Take a photo</string>
+    <string name="btn_cancel">Cancel</string>
+    <!--button name ending-->
 </resources>

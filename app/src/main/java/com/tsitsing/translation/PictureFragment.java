@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -134,8 +135,8 @@ public class PictureFragment extends Fragment {
                             //执行回调操作
                             @Override
                             public void doSuccess(String translated) {
-                                TextView textViewOCRResult = getView().findViewById(R.id.textView_OCR_result);
-                                TextView textViewTranslateResult = getView().findViewById(R.id.textView_translate_result);
+                                TextView textViewOCRResult = getView().findViewById(R.id.edit_OCR_result);
+                                TextView textViewTranslateResult = getView().findViewById(R.id.edit_translate_result);
                                 ImageView imageView = getView().findViewById(R.id.imageView);
                                 pptvLoading.setVisibility(View.INVISIBLE);
                                 imageView.setImageBitmap(bitmap);
@@ -309,11 +310,12 @@ public class PictureFragment extends Fragment {
 
         //获取屏幕宽高
         int width = getResources().getDisplayMetrics().widthPixels;
-        int height = getResources().getDisplayMetrics().heightPixels / 3;
+        int height = getResources().getDisplayMetrics().heightPixels;
 
         final PopupWindow popupWindow = new PopupWindow(view, width, height);
         popupWindow.setFocusable(true);
-        popupWindow.setOutsideTouchable(true);//点击外部消失
+        //popupWindow.setOutsideTouchable(true);//点击外部消失
+
 
         buttonAlbum.setOnClickListener(new View.OnClickListener() {
             @Override

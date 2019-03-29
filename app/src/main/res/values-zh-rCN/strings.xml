@@ -11,4 +11,11 @@
     <string name="btn_start">开始</string>
     <string name="btn_stop">结束</string>
     <string name="toast_start_recognize">开始识别</string>
+    <string name="btn_translate_picture">翻译图片</string>
+    <string name="recognize_result">识别结果</string>
+    <string name="translate_result">翻译结果</string>
+    <string name="content_description_picture_translate">正在翻译的图片</string>
+    <string name="btn_album">从相册选择</string>
+    <string name="btn_photo">拍照</string>
+    <string name="btn_cancel">取消</string>
 </resources>
