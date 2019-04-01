@@ -21,6 +21,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -44,10 +45,15 @@ public class HomeFragment extends Fragment {
     private Spinner spinnerSource,spinnerDest;
     private EditText textInput;
     private TextView textResult;
+    private TextView textDetail;
 
     private String from;
     private String to;
     private String queryContent;
+    private String result;
+
+    private BasicCallBack tranCall;
+    private RequestQueue requestQueue;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -60,6 +66,7 @@ public class HomeFragment extends Fragment {
         spinnerDest = view.findViewById(R.id.spinner_dest);
         textInput = view.findViewById(R.id.text_input);
         textResult = view.findViewById(R.id.text_result);
+        textDetail = view.findViewById(R.id.textView_detail);
 
         textInput.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
@@ -134,10 +141,14 @@ public class HomeFragment extends Fragment {
         final String TRANS_API_HOST="http://api.fanyi.baidu.com/api/trans/vip/translate";
         final String APP_ID="20190211000265342";
         final String SECURITY_KEY="P0tTPdrqOvttQqAeRqhF";
-        String tag = "trans";
-        RequestQueue requestQueue= Volley.newRequestQueue(getContext());
-        requestQueue.cancelAll(tag);
+        final String tag = "trans";
 
+        final String CORPUS_API_HOST = "http://chieching.cn/TranslateServer/Handler";
+        final String tag_corpus = "corpus";
+
+        requestQueue= Volley.newRequestQueue(getContext());
+        requestQueue.cancelAll(tag);
+        //翻译请求
         final StringRequest stringRequest = new StringRequest(Request.Method.POST, TRANS_API_HOST, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -147,12 +158,55 @@ public class HomeFragment extends Fragment {
                     String transResult = jsonObject.getString("trans_result");
                     transResult = transResult.replace("[","");
                     JSONObject jsonObject1 = new JSONObject(transResult);
-                    String result = jsonObject1.getString("dst");
+                    result = jsonObject1.getString("dst");
                     textResult.setText(result);//输出结果
                     Log.d("-----------result",result);
                 } catch (JSONException e) {
                     Log.e("TAG", e.getMessage(), e);
                 }
+                //回调，继续下一层请求
+                tranCall = new BasicCallBack() {
+                    @Override
+                    public void doSuccess() {
+                        //查询语料库。应设置为上一个请求的回调方法
+                        final StringRequest corpusRequest = new StringRequest(Request.Method.POST, CORPUS_API_HOST, new Response.Listener<String>() {
+                            @Override
+                            public void onResponse(String response) {
+                                try {
+                                    Log.d("00000000000", "on response");
+                                    JSONArray jsonArray = new JSONArray(response);
+                                    textDetail.setText(jsonArray.toString());
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        }, new Response.ErrorListener() {
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+                                Log.d("0000000000", "response error");
+                            }
+                        }){
+                            protected Map<String,String> getParams () {
+                                Map<String,String> params = new HashMap<>();
+                                params.put("params", result);
+                                return params;
+                            }
+                        };
+                        corpusRequest.setTag(tag_corpus);
+                        requestQueue.add(corpusRequest);
+                    }
+
+                    @Override
+                    public void doSuccess(String string) {
+
+                    }
+
+                    @Override
+                    public void doFail() {
+
+                    }
+                };
+                tranCall.doSuccess();
             }
         }, new Response.ErrorListener() {
             @Override
@@ -177,6 +231,7 @@ public class HomeFragment extends Fragment {
                 return params;
             }
         };
+
         stringRequest.setTag(tag);
         requestQueue.add(stringRequest);
     }
