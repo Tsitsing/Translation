@@ -33,48 +33,60 @@
 
     <EditText
         android:id="@+id/text_input"
-        android:maxLines="5"
-        android:scrollbars="vertical"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="116dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="80dp"
         android:layout_marginEnd="8dp"
-        android:background="@null"
+        android:background="@drawable/shape_image_view"
+        android:elevation="2dp"
         android:ems="10"
         android:hint="@string/text_input"
         android:inputType="textMultiLine"
+        android:maxLines="5"
+        android:padding="10dp"
+        android:scrollbars="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
         android:id="@+id/text_result"
-        android:maxLines="5"
-        android:scrollbars="vertical"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="8dp"
-        android:background="@null"
+        android:background="@drawable/shape_image_view"
+        android:elevation="2dp"
         android:ems="10"
         android:inputType="textMultiLine"
+        android:maxHeight="100dp"
+        android:maxLines="5"
+        android:padding="10dp"
+        android:scrollbars="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/text_input" />
 
-    <TextView
-        android:id="@+id/textView_detail"
+    <com.tsitsing.translation.customView.MyScrollView
         android:layout_width="0dp"
-        android:layout_height="356dp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="60dp"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="8dp"
-        android:text="TextView"
+        android:background="@drawable/shape_image_view"
+        android:elevation="2dp"
+        android:padding="10dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text_result" />
+        app:layout_constraintTop_toBottomOf="@+id/text_result">
+
+        <LinearLayout
+            android:id="@+id/linear_words"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" />
+    </com.tsitsing.translation.customView.MyScrollView>
 
 </android.support.constraint.ConstraintLayout>

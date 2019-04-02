@@ -11,6 +11,7 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -46,28 +47,24 @@ public class HomeFragment extends Fragment {
     private EditText textInput;
     private TextView textResult;
     private TextView textDetail;
-
     private String from;
     private String to;
     private String queryContent;
     private String result;
-
     private BasicCallBack tranCall;
     private RequestQueue requestQueue;
+    private LinearLayout linearWords;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_home, container, false);
-
-
         spinnerSource = view.findViewById(R.id.spinner_source);
         spinnerDest = view.findViewById(R.id.spinner_dest);
         textInput = view.findViewById(R.id.text_input);
         textResult = view.findViewById(R.id.text_result);
-        textDetail = view.findViewById(R.id.textView_detail);
-
+        linearWords = view.findViewById(R.id.linear_words);
         textInput.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
@@ -78,7 +75,6 @@ public class HomeFragment extends Fragment {
                 return true;//是否消耗此事件
             }
         });
-
         //用于存放简单数据
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(getActivity(),
                 android.R.layout.simple_spinner_item,getData());
@@ -86,7 +82,6 @@ public class HomeFragment extends Fragment {
                 android.R.layout.simple_spinner_item,getData2());
         spinnerSource.setAdapter(arrayAdapter);
         spinnerDest.setAdapter(arrayAdapter2);
-
         //设置源语言选择监听事件
         spinnerSource.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -96,10 +91,8 @@ public class HomeFragment extends Fragment {
             }
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-
             }
         });
-
         //设置目标语言选择监听事件
         spinnerDest.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -109,7 +102,6 @@ public class HomeFragment extends Fragment {
             }
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-
             }
         });
         return view;
@@ -126,10 +118,11 @@ public class HomeFragment extends Fragment {
         list.add("繁体");
         return list;
     }
+
     private List<String> getData2(){
         List<String> list = new ArrayList<String>();
-        list.add("中文");
         list.add("英文");
+        list.add("中文");
         list.add("日语");
         list.add("法语");
         list.add("韩语");
@@ -142,10 +135,8 @@ public class HomeFragment extends Fragment {
         final String APP_ID="20190211000265342";
         final String SECURITY_KEY="P0tTPdrqOvttQqAeRqhF";
         final String tag = "trans";
-
         final String CORPUS_API_HOST = "http://chieching.cn/TranslateServer/Handler";
         final String tag_corpus = "corpus";
-
         requestQueue= Volley.newRequestQueue(getContext());
         requestQueue.cancelAll(tag);
         //翻译请求
@@ -168,14 +159,29 @@ public class HomeFragment extends Fragment {
                 tranCall = new BasicCallBack() {
                     @Override
                     public void doSuccess() {
-                        //查询语料库。应设置为上一个请求的回调方法
+                        //查询语料库
                         final StringRequest corpusRequest = new StringRequest(Request.Method.POST, CORPUS_API_HOST, new Response.Listener<String>() {
                             @Override
                             public void onResponse(String response) {
                                 try {
-                                    Log.d("00000000000", "on response");
+                                    Log.d("++++++++++++", "on response");
                                     JSONArray jsonArray = new JSONArray(response);
-                                    textDetail.setText(jsonArray.toString());
+                                    JSONObject jsonObject = new JSONObject();
+                                    GenerateCard generateCard = new GenerateCard(getContext());
+                                    linearWords.removeAllViews();//先清空之前添加的组件
+                                    for (int i = 0; i < jsonArray.length(); i++) {
+                                        jsonObject = jsonArray.getJSONObject(i);
+                                        if (jsonObject != null) {
+                                            String pronunciation = jsonObject.getString("pronunciation");
+                                            if (!pronunciation.equals("")){
+                                                pronunciation = "[" + pronunciation + "]";
+                                            }
+                                            LinearLayout subCard = generateCard.getCar(
+                                                    jsonObject.getString("word") + " "
+                                                            + pronunciation, jsonObject.getString("translation"));
+                                            linearWords.addView(subCard);//添加新生成的的组件
+                                        }
+                                    }
                                 } catch (JSONException e) {
                                     e.printStackTrace();
                                 }
@@ -183,7 +189,7 @@ public class HomeFragment extends Fragment {
                         }, new Response.ErrorListener() {
                             @Override
                             public void onErrorResponse(VolleyError error) {
-                                Log.d("0000000000", "response error");
+                                Log.d("++++++++++", "response error");
                             }
                         }){
                             protected Map<String,String> getParams () {
@@ -195,15 +201,11 @@ public class HomeFragment extends Fragment {
                         corpusRequest.setTag(tag_corpus);
                         requestQueue.add(corpusRequest);
                     }
-
                     @Override
                     public void doSuccess(String string) {
-
                     }
-
                     @Override
                     public void doFail() {
-
                     }
                 };
                 tranCall.doSuccess();
@@ -231,7 +233,6 @@ public class HomeFragment extends Fragment {
                 return params;
             }
         };
-
         stringRequest.setTag(tag);
         requestQueue.add(stringRequest);
     }
