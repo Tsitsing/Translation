@@ -18,4 +18,13 @@
     <string name="btn_album">从相册选择</string>
     <string name="btn_photo">拍照</string>
     <string name="btn_cancel">取消</string>
+    <string name="textView_userName">登录</string>
+    <string name="edit_userName">用户名/邮箱登录</string>
+    <string name="edit_password">密码</string>
+    <string name="btn_SignIn">登录</string>
+    <string name="textView_register">注册</string>
+    <string name="btn_submit">提交</string>
+    <string name="edit_repeat_password">重复密码</string>
+    <string name="edit_mail">邮箱</string>
+    <string name="edit_PickUserName">用户名</string>
 </resources>
