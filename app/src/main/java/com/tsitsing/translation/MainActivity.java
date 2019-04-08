@@ -111,8 +111,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
-
-
     //代码冗余，需要改
     private void initHomeFragment(){
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();

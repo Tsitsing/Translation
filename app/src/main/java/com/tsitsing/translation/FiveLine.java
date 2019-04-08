@@ -23,7 +23,7 @@ public class FiveLine extends View {
         super(context, attrs);
         paint = new Paint(Paint.ANTI_ALIAS_FLAG);
         paint.setStrokeWidth(10);
-        paint.setColor(Color.parseColor("#ff873d24"));
+        paint.setColor(Color.parseColor("#ff475164"));
     }
 
     public void initLine(float[] floats) {

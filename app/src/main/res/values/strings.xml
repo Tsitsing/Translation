@@ -5,14 +5,13 @@
     <string name="nav_picture">Picture</string>
     <string name="nav_dictionary">Dictionary</string>
     <string name="nav_my">My</string>
-    <string name="btn_translate">Translate</string>
     <string name="text_input">Input text</string>
-    <string name="toast_start_recognize">start recognize</string>
     <string name="content_description_picture_translate">the picture was translated</string>
     <string name="recognize_result">Recognize result</string>
     <string name="translate_result">Translate result</string>
 
     <!--button name beginning-->
+    <string name="btn_translate">Translate</string>
     <string name="btn_translate_picture">Translate Picture</string>
     <string name="btn_start">start</string>
     <string name="btn_stop">stop</string>
@@ -20,16 +19,17 @@
     <string name="btn_photo">Take a photo</string>
     <string name="btn_cancel">Cancel</string>
     <string name="btn_SignIn">Sign in</string>
-    <string name="btn_submit">Submit</string>
+    <string name="btn_submit">Sign up</string>
     <!--button name ending-->
 
     <!--textView name beginning-->
     <string name="textView_userName">Sign in</string>
-    <string name="textView_register">Register</string>
+    <string name="textView_register">Sign up</string>
+    <string name="textView_retrievePassword">Retrieve password</string>
     <!--textView name ending-->
 
     <!--editText name beginning-->
-    <string name="edit_userName">User name / mail address</string>
+    <string name="edit_userName">User name / Email address</string>
     <string name="edit_password">Password</string>
     <string name="edit_repeat_password">Repeat password</string>
     <string name="edit_mail">E-mail</string>
@@ -37,9 +37,13 @@
     <!--editText name ending-->
 
     <!--Toast content beginning-->
+    <string name="toast_start_recognize">start recognize</string>
     <string name="register_success">Succeed to register</string>
     <string name="register_fail">Fail to register</string>
     <string name="register_fail_sendMail">Fail to send E-mail, register fail</string>
     <string name="submit">Fail to submit, please check the information of register</string>
+    <string name="signIn_success">Succeed to Sign in</string>
+    <string name="signIn_fail_password">Password error</string>
+    <string name="signIn_fail_userName">User not existing</string>
     <!--Toast content ending-->
 </resources>
