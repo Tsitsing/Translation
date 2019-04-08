@@ -35,4 +35,11 @@
     <string name="edit_mail">E-mail</string>
     <string name="edit_PickUserName">User name</string>
     <!--editText name ending-->
+
+    <!--Toast content beginning-->
+    <string name="register_success">Succeed to register</string>
+    <string name="register_fail">Fail to register</string>
+    <string name="register_fail_sendMail">Fail to send E-mail, register fail</string>
+    <string name="submit">Fail to submit, please check the information of register</string>
+    <!--Toast content ending-->
 </resources>

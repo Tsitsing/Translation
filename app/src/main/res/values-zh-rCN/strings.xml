@@ -27,4 +27,8 @@
     <string name="edit_repeat_password">重复密码</string>
     <string name="edit_mail">邮箱</string>
     <string name="edit_PickUserName">用户名</string>
+    <string name="register_success">注册成功</string>
+    <string name="register_fail">注册失败</string>
+    <string name="register_fail_sendMail">无法发送邮件，注册失败</string>
+    <string name="submit">提交失败，请检查注册信息是否正确</string>
 </resources>
