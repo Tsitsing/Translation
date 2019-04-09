@@ -2,6 +2,7 @@ package com.tsitsing.translation;
 
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -13,7 +14,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.youdao.sdk.app.Language;
 import com.youdao.sdk.app.LanguageUtils;
@@ -43,6 +46,27 @@ public class DictionaryFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_dictionary, container, false);
+        ImageView imgSearch = view.findViewById(R.id.imageView_search_offLine);
+        imgSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), SearchActivity.class);
+                startActivity(intent);
+            }
+        });
+        ImageView imgRecite = view.findViewById(R.id.imageView__reciteWords);
+        imgRecite.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MyApplication application = (MyApplication) getActivity().getApplication();
+                if (application.getIsSignIn()) {
+                    Intent intent = new Intent(getActivity(), ReciteActivity.class);
+                    startActivity(intent);
+                } else {
+                    Toast.makeText(getContext(), R.string.please_signIn, Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
         return view;
     }
 }
