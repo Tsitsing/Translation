@@ -49,6 +49,7 @@ public class MyFragment extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 1000) {
+            //登录完成，设置界面上的用户名
             if (resultCode == RESULT_OK) {
                 MyApplication application;
                 application = (MyApplication) getActivity().getApplication();

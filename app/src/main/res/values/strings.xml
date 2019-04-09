@@ -45,5 +45,6 @@
     <string name="signIn_success">Succeed to Sign in</string>
     <string name="signIn_fail_password">Password error</string>
     <string name="signIn_fail_userName">User not existing</string>
+    <string name="signIn_fail_mail">Unactivated Email</string>
     <!--Toast content ending-->
 </resources>

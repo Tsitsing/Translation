@@ -20,7 +20,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".RegisterActivity"/>
+        <activity android:name=".SignUpActivity"/>
         <activity android:name=".SignInActivity" /> <!-- windowSoftInputMode 此设置防止导航栏被输入法顶到屏幕中间 -->
         <activity
             android:name=".MainActivity"

@@ -28,6 +28,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class SignInActivity extends AppCompatActivity {
+    private static final int REQUEST_SIGN_UP = 2000;//注册请求码
     private EditText editUserName;
     private EditText editPassword;
     private String userName;
@@ -50,8 +51,8 @@ public class SignInActivity extends AppCompatActivity {
         textRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), RegisterActivity.class);
-                startActivity(intent);
+                Intent intent = new Intent(getApplicationContext(), SignUpActivity.class);
+                startActivityForResult(intent, REQUEST_SIGN_UP);
             }
         });
         //登录
@@ -101,14 +102,14 @@ public class SignInActivity extends AppCompatActivity {
                                 try {
                                     //密码匹配
                                     if (jsonObject.getString("password").equals(password)) {
-                                        application.setIsSignIn(true);
-                                        application.setUserName(jsonObject.getString("name"));
-                                        if (application.getIsSignIn()) {
-                                            Log.d("-------state------", application.getUserName());
+                                        if (jsonObject.getString("state").equals("1")) {
+                                            application.setIsSignIn(true);
+                                            application.setUserName(jsonObject.getString("name"));
+                                            setResult(RESULT_OK);
+                                            finish();
+                                        } else {
+                                            Toast.makeText(context, R.string.signIn_fail_mail, Toast.LENGTH_LONG).show();
                                         }
-                                        Log.d("___________", "to main");
-                                        setResult(RESULT_OK);
-                                        finish();
                                     } else {
                                         Toast.makeText(context, R.string.signIn_fail_password, Toast.LENGTH_LONG).show();
                                     }
@@ -118,7 +119,6 @@ public class SignInActivity extends AppCompatActivity {
                             }
                         });
                     } else {
-                        Log.d("+++++++name is null+++++++", "");
                         Toast.makeText(context, R.string.signIn_fail_userName, Toast.LENGTH_LONG).show();
                     }
                 } catch (JSONException e) {

@@ -1,13 +1,11 @@
 package com.tsitsing.translation;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -25,7 +23,7 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class RegisterActivity extends AppCompatActivity {
+public class SignUpActivity extends AppCompatActivity {
     EditText editMail;
     EditText editUserName;
     EditText editPassword;
@@ -41,7 +39,7 @@ public class RegisterActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_register);
+        setContentView(R.layout.activity_sign_up);
         editMail = findViewById(R.id.register_mail);
         editPassword = findViewById(R.id.register_password);
         editRepeatPassword = findViewById(R.id.register_repeat_password);
@@ -195,8 +193,8 @@ public class RegisterActivity extends AppCompatActivity {
                 Log.d("_______", response);
                 if (response.equals("REGISTER_SUCCESS")) {
                     Toast.makeText(context, R.string.register_success, Toast.LENGTH_LONG).show();
-                    Intent intent = new Intent(context, SignInActivity.class);
-                    startActivity(intent);
+                    setResult(RESULT_OK);
+                    finish();
                 } else {
                     if (response.equals("SEND_MAIL_FAIL")) {
                         Toast.makeText(context, R.string.register_fail_sendMail, Toast.LENGTH_LONG).show();

@@ -3,8 +3,8 @@ package com.tsitsing.translation;
 import android.app.Application;
 
 public class MyApplication extends Application {
-    private boolean isSignIn = false;
-    private String userName = null;
+    private boolean isSignIn = false;//登录状态
+    private String userName = null;//用户名
 
     public boolean getIsSignIn () {
         return this.isSignIn;

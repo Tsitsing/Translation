@@ -69,8 +69,6 @@ public class MainActivity extends AppCompatActivity {
             e.printStackTrace();
         }
     }
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -111,6 +109,12 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+    //按返回键将任务移至后台
+    @Override
+    public void onBackPressed() {
+        moveTaskToBack(false);
+    }
+
     //代码冗余，需要改
     private void initHomeFragment(){
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
