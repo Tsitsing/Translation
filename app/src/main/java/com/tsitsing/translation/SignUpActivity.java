@@ -31,7 +31,7 @@ public class SignUpActivity extends AppCompatActivity {
     ImageView imgMail, imgUserName, imgPassword, imgRePassword;
     String mail;
     String userName;
-    String password;
+    String password = "";//防止先点击重复密码时触发空指针异常
     Boolean isMail = false, isPassword = false, isRepeatPassword = false, isUserName = false;
     Handler handler = new Handler();
     RequestQueue requestQueue;

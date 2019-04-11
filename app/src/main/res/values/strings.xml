@@ -46,14 +46,14 @@
 
     <!--Toast content beginning-->
     <string name="toast_start_recognize">start recognize</string>
-    <string name="register_success">Succeed to register</string>
-    <string name="register_fail">Fail to register</string>
+    <string name="register_success">Succeed to Sign up</string>
+    <string name="register_fail">Fail to Sign up</string>
     <string name="register_fail_sendMail">Fail to send E-mail, register fail</string>
-    <string name="submit">Fail to submit, please check the information of register</string>
+    <string name="submit">Fail to submit, please check the Sign up information</string>
     <string name="signIn_success">Succeed to Sign in</string>
     <string name="signIn_fail_password">Password error</string>
     <string name="signIn_fail_userName">User not existing</string>
     <string name="signIn_fail_mail">Unactivated Email</string>
-    <string name="please_signIn">Haven\'t sign in, please sign in first</string>
+    <string name="please_signIn">Haven\'t Sign in, please Sign in first</string>
     <!--Toast content ending-->
 </resources>
