@@ -164,7 +164,6 @@ public class HomeFragment extends Fragment {
                             @Override
                             public void onResponse(String response) {
                                 try {
-                                    Log.d("++++++++++++", "on response");
                                     JSONArray jsonArray = new JSONArray(response);
                                     JSONObject jsonObject = new JSONObject();
                                     GenerateCard generateCard = new GenerateCard(getContext());
