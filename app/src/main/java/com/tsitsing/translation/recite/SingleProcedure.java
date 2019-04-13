@@ -50,36 +50,41 @@ class SingleProcedure {
     //初始化界面时调取数据
     void init(Context context, final ActivityCall activityCall) {
         String initial = getInitial();
-        requestDate(initial, context, new BasicCallBack() {
-            @Override
-            public void doSuccess() {
-                JSONObject jsonObject;
-                int index;
-                if (jsonArray.length() != 0) {
-                    try {
-                        index = getIndex(jsonArray);//获取随机不重复下标
-                        jsonObject = jsonArray.getJSONObject(index);
-                        history.add(jsonObject.getString("word"));
-                        cursor = history.size() - 1;
-                        activityCall.onResponse(jsonObject);//回调，返回DetailActivity继续处理
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                        Log.d("JSONException", "do success error");
+        if (!initial.equals("NONE")) {
+            requestDate(initial, context, new BasicCallBack() {
+                @Override
+                public void doSuccess() {
+                    JSONObject jsonObject;
+                    if (jsonArray.length() != 0) {
+                        try {
+                            int index;
+                            index = getIndex(jsonArray);//获取随机不重复下标
+                            jsonObject = jsonArray.getJSONObject(index);
+                            history.add(jsonObject.getString("word"));
+                            cursor = history.size() - 1;
+                            jsonObject.put("isLearned", false);
+                            activityCall.onResponse(jsonObject);//回调，返回DetailActivity继续处理
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            Log.d("JSONException", "do success error");
+                        }
+                    } else {
+                        Log.d("ListArray error", "arrayCache is null");
                     }
-                } else {
-                    Log.d("ListArray error", "arrayCache is null");
                 }
-            }
 
-            @Override
-            public void doSuccess(String string) {
-            }
+                @Override
+                public void doSuccess(String string) {
+                }
 
-            @Override
-            public void doFail() {
-                Log.d("request error", "error");
-            }
-        });
+                @Override
+                public void doFail() {
+                    Log.d("request error", "error");
+                }
+            });
+        } else {
+            //TODO:单词已背完
+        }
     }
 
     //点击Learned的时候调用
@@ -87,6 +92,7 @@ class SingleProcedure {
         final boolean isLearned = learnedSet.contains(word);
         LearnedType type;
         if (isLearned) {
+            learnedSet.remove(word);
             type = LearnedType.DELETE;
         } else {
             type = LearnedType.INSERT;
@@ -117,9 +123,9 @@ class SingleProcedure {
 
     }
 
-    //点击下一页时调用
+    //获取下一页时调用
     void downPage(final ActivityCall call, final Context context) {
-        if (cursor == (history.size() - 1)) {//此时history无下一个，需要取出新的JSONObject
+        if (cursor == (history.size() - 1)) {//此时history中无下一个，需要取出新的JSONObject
             if (jsonArray.length() != 0) {
                 try {
                     int index = getIndex(jsonArray);//获取随机不重复下标
@@ -140,7 +146,7 @@ class SingleProcedure {
                                 @Override
                                 public void doSuccess() {
                                     indexSet.clear();//清空上组存储的下标
-                                    downPage(call, context);
+                                    downPage(call, context);//继续递归调用此方法
                                 }
 
                                 @Override
@@ -176,6 +182,8 @@ class SingleProcedure {
                 public void doSuccess(String string) {
                     try {
                         JSONObject jsonObject = new JSONObject(string);
+                        boolean isLearned = learnedSet.contains(jsonObject.getString("word"));
+                        jsonObject.put("isLearned", isLearned);
                         call.onResponse(jsonObject);
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -190,7 +198,7 @@ class SingleProcedure {
         }
     }
 
-    //点击上一页时调用
+    //获取上一页时调用
     void upPage(final ActivityCall call, Context context) {
         if (cursor != 0) {
             cursor--;//游标移至上一个元素

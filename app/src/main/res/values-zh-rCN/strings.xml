@@ -45,4 +45,6 @@
     <string name="btn_addPlan">添加计划</string>
     <string name="textView_plans">计划</string>
     <string name="textView_totalAndLearned">全部/已学</string>
+    <string name="textView_translation">中文释义：</string>
+    <string name="textView_definition">英文释义：</string>
 </resources>

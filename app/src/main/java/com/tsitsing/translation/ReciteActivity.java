@@ -11,8 +11,7 @@ import com.tsitsing.translation.emun.PlanName;
 import com.tsitsing.translation.recite.DetailActivity;
 
 public class ReciteActivity extends AppCompatActivity {
-    LinearLayout layoutCet6;
-    Button btnAddPlan;
+    LinearLayout layoutCet6,layoutCet4,layoutToefl;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,12 +26,24 @@ public class ReciteActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-        //点击添加计划
-        btnAddPlan = findViewById(R.id.btn_addPlan);
-        btnAddPlan.setOnClickListener(new View.OnClickListener() {
+        //点击背四级词汇跳转页面
+        layoutCet4 = findViewById(R.id.linear_cet4);
+        layoutCet4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent intent = new Intent(getApplicationContext(), DetailActivity.class);
+                intent.putExtra("planName", PlanName.cet4.toString());
+                startActivity(intent);
+            }
+        });
+        //点击背托福词汇跳转页面
+        layoutToefl = findViewById(R.id.linear_toefl);
+        layoutToefl.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), DetailActivity.class);
+                intent.putExtra("planName", PlanName.toefl.toString());
+                startActivity(intent);
             }
         });
     }

@@ -34,6 +34,8 @@
     <string name="textView_toefl">TOEFL</string>
     <string name="textView_plans">Plans</string>
     <string name="textView_totalAndLearned">Total / Learned</string>
+    <string name="textView_translation">Chinese translation :</string>
+    <string name="textView_definition">Definition :</string>
     <!--textView name ending-->
 
     <!--editText name beginning-->
