@@ -36,6 +36,7 @@
     <string name="textView_totalAndLearned">Total / Learned</string>
     <string name="textView_translation">Chinese translation :</string>
     <string name="textView_definition">Definition :</string>
+    <string name="textView_option">Option</string>
     <!--textView name ending-->
 
     <!--editText name beginning-->

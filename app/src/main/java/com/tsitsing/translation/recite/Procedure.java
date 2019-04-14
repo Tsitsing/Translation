@@ -22,34 +22,26 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 
-class SingleProcedure {
-    private static SingleProcedure instance;//实例
+class Procedure {
     private JSONArray jsonArray;//存放当前的JSONArray
     private HashSet<String> initialSet = new HashSet<>();//存放已获取过的首字母
     private HashSet<String> indexSet = new HashSet<>();//存放已获取过的下标
-    private String userName, planName;
+    private String userName;
+    private String planName;
     private ArrayList<String> history = new ArrayList<>();//存放已显示过的单词
     private int cursor;//当前单词的在history中的位置
     private HashSet<String> learnedSet = new HashSet<>();//暂存已学单词
     private boolean flag = true;
 
-    //私有构造方法
-    private SingleProcedure(String userName, String planName) {
+    Procedure(String userName, String planName) {
         this.userName = userName;
         this.planName = planName;
     }
 
-    //通过此方法获取唯一的实例
-    static SingleProcedure getInstance(String userName, String planName) {
-        if (instance == null && userName != null && planName != null) {
-            instance = new SingleProcedure(userName, planName);
-        }
-        return instance;
-    }
-
     //初始化界面时调取数据
     void init(Context context, final ActivityCall activityCall) {
-        String initial = getInitial();
+        Log.d("____________", planName + "  " +userName);
+        String initial = getInitial();//获取随机不重复首字母
         if (!initial.equals("NONE")) {
             requestDate(initial, context, new BasicCallBack() {
                 @Override

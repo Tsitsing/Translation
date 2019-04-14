@@ -1,10 +1,8 @@
 package com.tsitsing.translation.recite;
 
 import android.content.Intent;
-import android.icu.util.LocaleData;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
@@ -24,8 +22,8 @@ public class DetailActivity extends AppCompatActivity {
     private TextView textViewDefinition;
     private Button btnVoice;
     private Button btnLearned;
-    private String userName, planName;
     private float passX = 0, curX = 0;
+    private Procedure procedure;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,11 +38,12 @@ public class DetailActivity extends AppCompatActivity {
         btnLearned = findViewById(R.id.btn_reciteLearned);
         //获取用户名，计划名
         MyApplication application = (MyApplication) getApplication();
-        userName = application.getUserName();
+        String userName = application.getUserName();
         Intent intent = getIntent();
-        planName = intent.getStringExtra("planName");
+        String planName = intent.getStringExtra("planName");
         //初始化页面信息
-        SingleProcedure.getInstance(userName, planName).init(getApplicationContext(), new ActivityCall() {
+        procedure = new Procedure(userName, planName);
+        procedure.init(getApplicationContext(), new ActivityCall() {
             @Override
             public void onResponse(JSONObject jsonObject) {
                 textEvent(jsonObject);
@@ -70,7 +69,7 @@ public class DetailActivity extends AppCompatActivity {
                         break;
                     case MotionEvent.ACTION_UP:
                         if ((passX - curX) < 0 && Math.abs(passX - curX) > 10) {//向左滑
-                            SingleProcedure.getInstance(userName, planName).upPage(new ActivityCall() {
+                            procedure.upPage(new ActivityCall() {
                                 @Override
                                 public void onResponse(JSONObject jsonObject) {
                                     textEvent(jsonObject);
@@ -79,7 +78,7 @@ public class DetailActivity extends AppCompatActivity {
                             }, getApplicationContext());
                         }
                         if ((passX - curX ) > 0 && Math.abs(passX - curX) > 10) {//向右滑
-                            SingleProcedure.getInstance(userName, planName).downPage(new ActivityCall() {
+                            procedure.downPage(new ActivityCall() {
                                 @Override
                                 public void onResponse(JSONObject jsonObject) {
                                     textEvent(jsonObject);
@@ -96,7 +95,7 @@ public class DetailActivity extends AppCompatActivity {
         btnLearned.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SingleProcedure.getInstance(userName, planName).learned(textViewWord.getText().toString(),
+                procedure.learned(textViewWord.getText().toString(),
                         getApplicationContext(), new ActivityCall() {
                             @Override
                             public void onResponse(JSONObject jsonObject) {

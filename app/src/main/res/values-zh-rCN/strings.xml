@@ -47,4 +47,5 @@
     <string name="textView_totalAndLearned">全部/已学</string>
     <string name="textView_translation">中文释义：</string>
     <string name="textView_definition">英文释义：</string>
+    <string name="textView_option">操作</string>
 </resources>
