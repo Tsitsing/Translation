@@ -50,4 +50,6 @@
     <string name="textView_option">操作</string>
     <string name="edit_input_word">输入单词</string>
     <string name="no_such_word">无此单词</string>
+    <string name="textView_recog">识别结果：</string>
+    <string name="textView_trans">翻译结果：</string>
 </resources>

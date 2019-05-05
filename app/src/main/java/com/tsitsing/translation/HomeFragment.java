@@ -21,6 +21,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.tsitsing.translation.customView.MyScrollView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -46,7 +47,6 @@ public class HomeFragment extends Fragment {
     private Spinner spinnerSource,spinnerDest;
     private EditText textInput;
     private TextView textResult;
-    private TextView textDetail;
     private String from;
     private String to;
     private String queryContent;
@@ -54,6 +54,7 @@ public class HomeFragment extends Fragment {
     private BasicCallBack tranCall;
     private RequestQueue requestQueue;
     private LinearLayout linearWords;
+    private MyScrollView scrollView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -65,6 +66,8 @@ public class HomeFragment extends Fragment {
         textInput = view.findViewById(R.id.text_input);
         textResult = view.findViewById(R.id.text_result);
         linearWords = view.findViewById(R.id.linear_words);
+        scrollView = view.findViewById(R.id.scroll_home_words);
+        //通过回车键发送请求
         textInput.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
@@ -108,7 +111,7 @@ public class HomeFragment extends Fragment {
     }
 
     private List<String> getData(){
-        List<String> list = new ArrayList<String>();
+        List<String> list = new ArrayList<>();
         list.add("自动");
         list.add("中文");
         list.add("英文");
@@ -151,7 +154,7 @@ public class HomeFragment extends Fragment {
                     JSONObject jsonObject1 = new JSONObject(transResult);
                     result = jsonObject1.getString("dst");
                     textResult.setText(result);//输出结果
-                    Log.d("-----------result",result);
+                    textResult.setVisibility(View.VISIBLE);//设置初始为不可见的textView为可见
                 } catch (JSONException e) {
                     Log.e("TAG", e.getMessage(), e);
                 }
@@ -159,13 +162,13 @@ public class HomeFragment extends Fragment {
                 tranCall = new BasicCallBack() {
                     @Override
                     public void doSuccess() {
-                        //查询语料库
+                        //查询语料库，获取重点词汇信息
                         final StringRequest corpusRequest = new StringRequest(Request.Method.POST, CORPUS_API_HOST, new Response.Listener<String>() {
                             @Override
                             public void onResponse(String response) {
                                 try {
                                     JSONArray jsonArray = new JSONArray(response);
-                                    JSONObject jsonObject = new JSONObject();
+                                    JSONObject jsonObject;
                                     GenerateCard generateCard = new GenerateCard(getContext());
                                     linearWords.removeAllViews();//先清空之前添加的组件
                                     for (int i = 0; i < jsonArray.length(); i++) {
@@ -179,6 +182,7 @@ public class HomeFragment extends Fragment {
                                                     jsonObject.getString("word") + " "
                                                             + pronunciation, jsonObject.getString("translation"));
                                             linearWords.addView(subCard);//添加新生成的的组件
+                                            scrollView.setVisibility(View.VISIBLE);
                                         }
                                     }
                                 } catch (JSONException e) {

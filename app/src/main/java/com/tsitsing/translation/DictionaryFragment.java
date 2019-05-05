@@ -18,6 +18,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.tsitsing.translation.recite.PlansActivity;
 import com.youdao.sdk.app.Language;
 import com.youdao.sdk.app.LanguageUtils;
 import com.youdao.sdk.app.YouDaoApplication;
@@ -59,12 +60,12 @@ public class DictionaryFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 MyApplication application = (MyApplication) getActivity().getApplication();
-                if (application.getIsSignIn()) {
-                    Intent intent = new Intent(getActivity(), ReciteActivity.class);
+//                if (application.getIsSignIn()) {
+                    Intent intent = new Intent(getActivity(), PlansActivity.class);
                     startActivity(intent);
-                } else {
-                    Toast.makeText(getContext(), R.string.please_signIn, Toast.LENGTH_SHORT).show();
-                }
+//                } else {
+//                    Toast.makeText(getContext(), R.string.please_signIn, Toast.LENGTH_SHORT).show();
+//                }
             }
         });
         return view;
