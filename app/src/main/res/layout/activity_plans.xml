@@ -6,6 +6,20 @@
     android:layout_height="match_parent"
     tools:context=".recite.PlansActivity">
 
+    <LinearLayout
+        android:id="@+id/ly_plans_container"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0"></LinearLayout>
+
     <com.tsitsing.translation.customView.CircleImage
         android:id="@+id/img_addPlan_add"
         android:layout_width="wrap_content"
@@ -19,4 +33,5 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.899"
         app:srcCompat="@mipmap/add" />
+
 </android.support.constraint.ConstraintLayout>
