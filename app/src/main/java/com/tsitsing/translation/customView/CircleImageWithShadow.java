@@ -14,20 +14,20 @@ import android.util.AttributeSet;
 
 import com.tsitsing.translation.R;
 
-public class CircleImage extends android.support.v7.widget.AppCompatImageView {
+public class CircleImageWithShadow extends android.support.v7.widget.AppCompatImageView {
 
     Paint paint;
-    public CircleImage(Context context) {
+    public CircleImageWithShadow(Context context) {
         super(context);
         paint = new Paint();
     }
 
-    public CircleImage(Context context, AttributeSet attrs) {
+    public CircleImageWithShadow(Context context, AttributeSet attrs) {
         super(context, attrs);
         paint  = new Paint();
     }
 
-    public CircleImage(Context context, AttributeSet attrs, int defStyleAttr) {
+    public CircleImageWithShadow(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         paint  = new Paint();
     }
@@ -51,9 +51,9 @@ public class CircleImage extends android.support.v7.widget.AppCompatImageView {
         Rect rect = new Rect(0,0, bitmap.getWidth(), bitmap.getHeight());
         paint.setAntiAlias(true);//抗锯齿
         //设置模糊样式
-//        BlurMaskFilter blurMaskFilter = new BlurMaskFilter(12, BlurMaskFilter.Blur.SOLID);
-//        paint.setColor(getContext().getResources().getColor(R.color.theme, null));
-//        paint.setMaskFilter(blurMaskFilter);
+        BlurMaskFilter blurMaskFilter = new BlurMaskFilter(12, BlurMaskFilter.Blur.SOLID);
+        paint.setColor(getContext().getResources().getColor(R.color.theme, null));
+        paint.setMaskFilter(blurMaskFilter);
         canvas.drawCircle(bitmap.getWidth()/(float)2, bitmap.getHeight()/(float)2, bitmap.getHeight()/(float)2.3, paint);
         //设置混合模式
         paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));//取原图像作为前景的交集

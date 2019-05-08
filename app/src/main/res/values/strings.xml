@@ -21,6 +21,7 @@
     <string name="btn_SignIn">Sign in</string>
     <string name="btn_submit">Sign up</string>
     <string name="btn_addPlan">Add plan</string>
+    <string name="btn_signOut">SIGN OUT</string>
     <!--button name ending-->
 
     <!--textView name beginning-->
@@ -39,6 +40,8 @@
     <string name="textView_option">Option</string>
     <string name="textView_recog">Recognize result :</string>
     <string name="textView_trans">Translate result :</string>
+    <string name="textView_followers">Followers</string>
+    <string name="textView_following">Following</string>
     <!--textView name ending-->
 
     <!--editText name beginning-->

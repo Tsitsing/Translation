@@ -3,6 +3,8 @@ package com.tsitsing.translation;
 
 import android.app.Application;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -14,6 +16,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.baidu.translate.asr.data.Language;
+import com.tsitsing.translation.customView.CircleImage;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -31,7 +34,11 @@ public class MyFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_my, container, false);
-        ImageView imagePortrait = view.findViewById(R.id.imageView_portrait);
+
+        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.mipmap.logo_test);
+        bitmap = Bitmap.createScaledBitmap(bitmap, 300, 300, true);
+
+        CircleImage imagePortrait = view.findViewById(R.id.imageView_portrait);
         imagePortrait.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -42,6 +49,9 @@ public class MyFragment extends Fragment {
                 }
             }
         });
+
+        imagePortrait.setImageBitmap(bitmap);
+
         return view;
     }
 

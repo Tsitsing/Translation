@@ -19,7 +19,7 @@ import com.android.volley.toolbox.Volley;
 import com.tsitsing.translation.interfaces.BasicCallBack;
 import com.tsitsing.translation.MyApplication;
 import com.tsitsing.translation.R;
-import com.tsitsing.translation.customView.CircleImage;
+import com.tsitsing.translation.customView.CircleImageWithShadow;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -46,7 +46,7 @@ public class PlansActivity extends AppCompatActivity {
         displayPlans();
 
         //圆形添加计划按钮
-        CircleImage addPlan = findViewById(R.id.img_addPlan_add);
+        CircleImageWithShadow addPlan = findViewById(R.id.img_addPlan_add);
         addPlan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
