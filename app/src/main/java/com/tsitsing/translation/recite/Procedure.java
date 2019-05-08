@@ -9,9 +9,9 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.tsitsing.translation.BasicCallBack;
+import com.tsitsing.translation.interfaces.BasicCallBack;
 import com.tsitsing.translation.emun.LearnedType;
-import com.tsitsing.translation.interfaces.ActivityCall;
+import com.tsitsing.translation.interfaces.ActivityCallBack;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -39,7 +39,7 @@ class Procedure {
     }
 
     //初始化界面时调取数据
-    void init(Context context, final ActivityCall activityCall) {
+    void init(Context context, final ActivityCallBack activityCallBack) {
         Log.d("____________", planName + "  " +userName);
         String initial = getInitial();//获取随机不重复首字母
         if (!initial.equals("NONE")) {
@@ -55,7 +55,7 @@ class Procedure {
                             history.add(jsonObject.getString("word"));
                             cursor = history.size() - 1;
                             jsonObject.put("isLearned", false);
-                            activityCall.onResponse(jsonObject);//回调，返回DetailActivity继续处理
+                            activityCallBack.onResponse(jsonObject);//回调，返回DetailActivity继续处理
                         } catch (JSONException e) {
                             e.printStackTrace();
                             Log.d("JSONException", "do success error");
@@ -80,7 +80,7 @@ class Procedure {
     }
 
     //点击Learned的时候调用
-    void learned(String word, Context context, final ActivityCall call) {
+    void learned(String word, Context context, final ActivityCallBack call) {
         final boolean isLearned = learnedSet.contains(word);
         LearnedType type;
         if (isLearned) {
@@ -116,7 +116,7 @@ class Procedure {
     }
 
     //获取下一页时调用
-    void downPage(final ActivityCall call, final Context context) {
+    void downPage(final ActivityCallBack call, final Context context) {
         if (cursor == (history.size() - 1)) {//此时history中无下一个，需要取出新的JSONObject
             if (jsonArray.length() != 0) {
                 try {
@@ -191,7 +191,7 @@ class Procedure {
     }
 
     //获取上一页时调用
-    void upPage(final ActivityCall call, Context context) {
+    void upPage(final ActivityCallBack call, Context context) {
         if (cursor != 0) {
             cursor--;//游标移至上一个元素
             requestWord(history.get(cursor), context, new BasicCallBack() {
@@ -230,6 +230,8 @@ class Procedure {
         while (!indexSet.add(Integer.toString(index)) && indexSet.size() < MAX);//当此下标已存在集合中且下标未全部用完时重复
         return index;
     }
+
+
 
     //随机生成不重复首字母
     private String getInitial() {
@@ -318,7 +320,6 @@ class Procedure {
             @Override
             public void onResponse(String response) {
                 if (response.equals("TRUE")) {
-                    Log.d("+++++++++++", "success");
                     callBack.doSuccess();
                 }
             }

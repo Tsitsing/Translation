@@ -9,7 +9,6 @@
     <uses-permission android:name="android.permission.RECORD_AUDIO" /> <!-- 如果需要用到TTS播报功能，则需要外置存储卡写权限 -->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" /> <!-- 相机权限 -->
-
     <uses-permission android:name="android.permission.CAMERA" />
 
     <application
@@ -21,7 +20,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".recite.AddPlanActivity"/>
+        <activity android:name=".TestActivity"></activity>
+        <activity android:name=".recite.AddPlanActivity" />
         <activity android:name=".recite.PlansActivity" />
         <activity android:name=".recite.DetailActivity" />
         <activity android:name=".ReciteActivity" />

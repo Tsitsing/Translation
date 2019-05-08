@@ -19,8 +19,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.tsitsing.translation.emun.PlanAPIType;
 import com.tsitsing.translation.emun.PlanName;
-import com.tsitsing.translation.emun.ResponseState;
-import com.tsitsing.translation.interfaces.ActivityCall;
+import com.tsitsing.translation.interfaces.ActivityCallBack;
 import com.tsitsing.translation.recite.DetailActivity;
 
 import org.json.JSONException;
@@ -48,7 +47,7 @@ public class ReciteActivity extends AppCompatActivity {
         final LinearLayout layout = findViewById(R.id.planContainer);
 
         //显示计划信息
-        displayPlan(userName, new ActivityCall() {
+        displayPlan(userName, new ActivityCallBack() {
             @Override
             public void onResponse(JSONObject jsonObject) {
                 Log.d("_____json_____", jsonObject.toString());
@@ -175,7 +174,7 @@ public class ReciteActivity extends AppCompatActivity {
     }
 
     //获取各个计划已学信息并显示
-    void displayPlan(final String userName, final ActivityCall call) {
+    void displayPlan(final String userName, final ActivityCallBack call) {
         final String GET_PLAN_HOST = "http://chieching.cn/TranslateServer/Existence";
         final String TAG = "getPlan";
         final String TAG_QUANTITY = "quantity";

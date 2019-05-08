@@ -1,5 +1,6 @@
 package com.tsitsing.translation;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -10,6 +11,7 @@ import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
@@ -22,6 +24,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.tsitsing.translation.customView.MyScrollView;
+import com.tsitsing.translation.interfaces.BasicCallBack;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -55,6 +58,8 @@ public class HomeFragment extends Fragment {
     private RequestQueue requestQueue;
     private LinearLayout linearWords;
     private MyScrollView scrollView;
+
+    private Button button;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -107,6 +112,13 @@ public class HomeFragment extends Fragment {
             public void onNothingSelected(AdapterView<?> parent) {
             }
         });
+
+
+        //test
+        button = view.findViewById(R.id.button2);
+        forTest();
+
+
         return view;
     }
 
@@ -238,5 +250,18 @@ public class HomeFragment extends Fragment {
         };
         stringRequest.setTag(tag);
         requestQueue.add(stringRequest);
+    }
+
+
+
+    //test
+    private void forTest () {
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity().getApplicationContext(),TestActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 }

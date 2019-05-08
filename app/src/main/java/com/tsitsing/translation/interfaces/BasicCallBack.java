@@ -1,4 +1,4 @@
-package com.tsitsing.translation;
+package com.tsitsing.translation.interfaces;
 
 import android.graphics.Bitmap;
 

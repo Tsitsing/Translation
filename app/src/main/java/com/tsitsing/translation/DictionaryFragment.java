@@ -60,12 +60,12 @@ public class DictionaryFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 MyApplication application = (MyApplication) getActivity().getApplication();
-//                if (application.getIsSignIn()) {
+                if (application.getIsSignIn()) {
                     Intent intent = new Intent(getActivity(), PlansActivity.class);
                     startActivity(intent);
-//                } else {
-//                    Toast.makeText(getContext(), R.string.please_signIn, Toast.LENGTH_SHORT).show();
-//                }
+                } else {
+                    Toast.makeText(getContext(), R.string.please_signIn, Toast.LENGTH_SHORT).show();
+                }
             }
         });
         return view;

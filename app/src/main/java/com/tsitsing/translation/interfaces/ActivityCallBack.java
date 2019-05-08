@@ -2,6 +2,6 @@ package com.tsitsing.translation.interfaces;
 
 import org.json.JSONObject;
 
-public interface ActivityCall {
+public interface ActivityCallBack {
     void onResponse (JSONObject jsonObject);
 }

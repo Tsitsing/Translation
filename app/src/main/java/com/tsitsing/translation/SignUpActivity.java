@@ -141,7 +141,7 @@ public class SignUpActivity extends AppCompatActivity {
         StringRequest request = new StringRequest(Request.Method.POST, CHECK_HOST, new Response.Listener<String>() {
             @Override
             public void onResponse(final String response) {
-                handler.post(new Runnable() {
+                handler.post(new Runnable() {//主线程需要做的事
                     @Override
                     public void run() {
                         if (response.equals("TRUE")) {

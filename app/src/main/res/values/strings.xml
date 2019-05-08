@@ -62,6 +62,7 @@
     <string name="signIn_fail_mail">Unactivated Email</string>
     <string name="please_signIn">Haven\'t Sign in, please Sign in first</string>
     <string name="no_such_word">No such word</string>
+    <string name="first_word">It\'s the first word</string>
 
     <!-- Error messages -->
     <!--Toast content ending-->

@@ -14,29 +14,44 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+import com.tsitsing.translation.MyApplication;
 import com.tsitsing.translation.R;
 import com.tsitsing.translation.customEffect.LinearLayoutManagerWithScrollTop;
 import com.tsitsing.translation.customView.RecycleAdapter;
+import com.tsitsing.translation.emun.PlanAPIType;
 import com.tsitsing.translation.utility.GetDays;
 
 import org.w3c.dom.Text;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class AddPlanActivity extends AppCompatActivity {
 
     LinearLayoutManagerWithScrollTop layoutManager;
     LinearLayoutManagerWithScrollTop layoutManagerDays;
     String planName = "cet4";
+    String userName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_plan);
 
+        MyApplication myApplication = (MyApplication) getApplication();
+        userName = myApplication.getUserName();
+
         createPlanList(3849);
 
+        //选择词典
         RadioGroup radioGroup = findViewById(R.id.dict_radio_group);
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
@@ -58,6 +73,7 @@ public class AddPlanActivity extends AppCompatActivity {
             }
         });
 
+        //添加计划的按钮
         Button btnAddPlan = findViewById(R.id.btn_addPlan_add);
         btnAddPlan.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -73,17 +89,51 @@ public class AddPlanActivity extends AppCompatActivity {
                 TextView daysTV = (TextView) daysView.getViewById(R.id.tv_item);
                 int daysNum = Integer.parseInt(daysTV.getText().toString());
 
-                Intent data = new Intent();
-                data.putExtra("planName", planName);
-                data.putExtra("words", wordsNum);
-                data.putExtra("daysNum", daysNum);
+                Log.d("______userName______", userName + planName + wordsNum);
+                //添加计划
+                checkPlan(userName, planName, PlanAPIType.GET_INFO, wordsNum);
 
-                setResult(RESULT_OK, data);
+                Intent intent = new Intent();
+                setResult(RESULT_OK, intent);
                 finish();
             }
         });
     }
 
+    //对计划进行获取、添加、删除操作
+    void checkPlan(final String userName, final String planName, final PlanAPIType type, final int numPerDay) {
+        RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
+        String TAG = "checkPlan";
+        final String CHECK_HOST = "http://chieching.cn/TranslateServer/Plan";
+        queue.cancelAll(TAG);
+        StringRequest request = new StringRequest(Request.Method.POST, CHECK_HOST, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                if (response.equals("{}")) {
+                    checkPlan(userName, planName, PlanAPIType.ADD_PLAN, numPerDay);
+                }
+                Log.d("_____", response);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        }) {
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<>();
+                params.put("type", type.toString());
+                params.put("userName", userName);
+                params.put("planName", planName);
+                params.put("numPerDay", String.valueOf(numPerDay));
+                return params;
+            }
+        };
+        request.setTag(TAG);
+        queue.add(request);
+    }
+
+    //创建两个相关联的recyclerView
     private void createPlanList (int wordsQuantity) {
         RecycleAdapter recycleAdapter = new RecycleAdapter(getApplicationContext(), getData());
         final RecyclerView recyclerView = findViewById(R.id.recyclerView);
