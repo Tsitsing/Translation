@@ -11,6 +11,10 @@
     <string name="translate_result">Translate result</string>
 
     <!--button name beginning-->
+    <string name="btn_collection">Collection</string>
+    <string name="btn_learnedWords">Learned words</string>
+    <string name="btn_followingList">Following list</string>
+    <string name="btn_followerList">Follower list</string>
     <string name="btn_translate">Translate</string>
     <string name="btn_translate_picture">Translate Picture</string>
     <string name="btn_start">start</string>
@@ -25,6 +29,7 @@
     <!--button name ending-->
 
     <!--textView name beginning-->
+    <string name="textView_dynamic">Dynamic</string>
     <string name="textView_userName">Sign in</string>
     <string name="textView_register">Sign up</string>
     <string name="textView_retrievePassword">Retrieve password</string>
@@ -54,6 +59,7 @@
     <!--editText name ending-->
 
     <!--Toast content beginning-->
+    <string name="toast_canNotSwitch">Can\'t not exchange source language and target language</string>
     <string name="toast_start_recognize">start recognize</string>
     <string name="register_success">Succeed to Sign up</string>
     <string name="register_fail">Fail to Sign up</string>

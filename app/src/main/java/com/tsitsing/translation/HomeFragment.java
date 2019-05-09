@@ -13,9 +13,11 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -24,6 +26,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.tsitsing.translation.customView.MyScrollView;
+import com.tsitsing.translation.customView.RecycleAdapter;
 import com.tsitsing.translation.interfaces.BasicCallBack;
 
 import org.json.JSONArray;
@@ -84,12 +87,16 @@ public class HomeFragment extends Fragment {
             }
         });
         //用于存放简单数据
-        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(getActivity(),
-                android.R.layout.simple_spinner_item,getData());
-        ArrayAdapter<String> arrayAdapter2 = new ArrayAdapter<String>(getActivity(),
-                android.R.layout.simple_spinner_item,getData2());
+        final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(getContext(), R.layout.spinner_item, getData());
+        final ArrayAdapter<String> arrayAdapter2 = new ArrayAdapter<>(getContext(),R.layout.spinner_item,getData2());
         spinnerSource.setAdapter(arrayAdapter);
         spinnerDest.setAdapter(arrayAdapter2);
+        //在指定位置弹出
+        spinnerSource.setDropDownHorizontalOffset(50);
+        spinnerSource.setDropDownVerticalOffset(110);
+        spinnerDest.setDropDownHorizontalOffset(1030);
+        spinnerDest.setDropDownVerticalOffset(110);
+
         //设置源语言选择监听事件
         spinnerSource.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -113,12 +120,26 @@ public class HomeFragment extends Fragment {
             }
         });
 
-
-        //test
-        button = view.findViewById(R.id.button2);
-        forTest();
-
-
+        //交换源语言与目标语言
+        ImageView imgSwitch = view.findViewById(R.id.img_home_switch);
+        imgSwitch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //先获取当前选中的item
+                String srcSelected = (String) spinnerSource.getSelectedItem();
+                String dstSelected = (String) spinnerDest.getSelectedItem();
+                //通过适配器获取对应item的位置
+                int srcTarget = arrayAdapter.getPosition(dstSelected);
+                int dstTarget = arrayAdapter2.getPosition(srcSelected);
+                if (srcTarget != -1 && dstTarget != -1) {//值为-1时说明不存在此item
+                    //根据位置重新设定当前spinner的选择
+                    spinnerSource.setSelection(srcTarget, true);
+                    spinnerDest.setSelection(dstTarget, true);
+                } else {
+                    Toast.makeText(getContext(), R.string.toast_canNotSwitch, Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
         return view;
     }
 

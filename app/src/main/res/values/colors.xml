@@ -7,4 +7,6 @@
     <color name="colorAccent">#475164</color>
     <color name="class2text">#2C2C2C</color>
     <color name="class3text">#4d4d4d</color>
+    <color name="gray_light">#EEEEEE</color>
+    <color name="white_soft">#fcfcfc</color>
 </resources>

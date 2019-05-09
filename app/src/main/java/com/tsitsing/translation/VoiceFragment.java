@@ -2,6 +2,7 @@ package com.tsitsing.translation;
 
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -14,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -22,6 +24,7 @@ import com.baidu.translate.asr.OnRecognizeListener;
 import com.baidu.translate.asr.TransAsrClient;
 import com.baidu.translate.asr.TransAsrConfig;
 import com.baidu.translate.asr.data.RecognitionResult;
+import com.tsitsing.translation.customView.CircleImageWithShadow;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,27 +40,19 @@ public class VoiceFragment extends Fragment {
         // Required empty public constructor
     }
 
-    MyButton buttonVoiceTranslate;
-    TextView textTranslateResult;
-    TextView textRecognizeResult;
-    FiveLine fiveLine;
-
-    private Spinner spinnerVoiceSource,spinnerVoiceDest;
+//    MyButton buttonVoiceTranslate;
+    private CircleImageWithShadow imgView;
+    private TextView textTranslateResult;
+    private TextView textRecognizeResult;
+    private FiveLine fiveLine;
+    private Spinner spinnerVoiceSource;
+    private Spinner spinnerVoiceDest;
+    ArrayAdapter<String> arrayAdapter;
+    ArrayAdapter<String> arrayAdapter2;
     private String from = "en";
     private String to = "zh";
 
-//    //申请录音权限
-//    private static final int GET_RECORD_AUDIO = 1;
-//    private static String[] PERMISSION_AUDIO = {
-//            Manifest.permission.RECORD_AUDIO
-//    };
-//    public static void verifyAudioPermissions(Activity activity){
-//        int permission = ActivityCompat.checkSelfPermission(activity,Manifest.permission.RECORD_AUDIO);
-//        if (permission != PackageManager.PERMISSION_GRANTED){
-//            ActivityCompat.requestPermissions(activity,PERMISSION_AUDIO,GET_RECORD_AUDIO);
-//        }
-//    }
-
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -66,13 +61,14 @@ public class VoiceFragment extends Fragment {
 
 
         //用于存放简单数据
-        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(getActivity(),
-                android.R.layout.simple_spinner_item,getData());
-        ArrayAdapter<String> arrayAdapter2 = new ArrayAdapter<String>(getActivity(),
-                android.R.layout.simple_spinner_item,getData2());
-
+        arrayAdapter = new ArrayAdapter<>(getContext(), R.layout.spinner_item,getData());
+        arrayAdapter2 = new ArrayAdapter<>(getContext(), R.layout.spinner_item,getData2());
         spinnerVoiceSource = view.findViewById(R.id.spinner_voice_source);
         spinnerVoiceDest = view.findViewById(R.id.spinner_voice_dest);
+        spinnerVoiceSource.setDropDownHorizontalOffset(50);
+        spinnerVoiceSource.setDropDownVerticalOffset(110);
+        spinnerVoiceDest.setDropDownHorizontalOffset(1030);
+        spinnerVoiceDest.setDropDownVerticalOffset(110);
 
         //设置spinner的内容
         spinnerVoiceSource.setAdapter(arrayAdapter);
@@ -104,6 +100,27 @@ public class VoiceFragment extends Fragment {
             }
         });
 
+        //交换源语言与目标语言
+        ImageView imgSwitch = view.findViewById(R.id.img_voice_switch);
+        imgSwitch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //先获取当前选中的item
+                String srcSelected = (String) spinnerVoiceSource.getSelectedItem();
+                String dstSelected = (String) spinnerVoiceDest.getSelectedItem();
+                //通过适配器获取对应item的位置
+                int srcTarget = arrayAdapter.getPosition(dstSelected);
+                int dstTarget = arrayAdapter2.getPosition(srcSelected);
+                if (srcTarget != -1 && dstTarget != -1) {//值为-1时说明不存在此item
+                    //根据位置重新设定当前spinner的选择
+                    spinnerVoiceSource.setSelection(srcTarget, true);
+                    spinnerVoiceDest.setSelection(dstTarget, true);
+                } else {
+                    Toast.makeText(getContext(), R.string.toast_canNotSwitch, Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
         //初始化语音翻译相关类
         TransAsrConfig config = new TransAsrConfig("20190211000265342","P0tTPdrqOvttQqAeRqhF");
         final TransAsrClient client = new TransAsrClient(getContext(),config);
@@ -114,12 +131,9 @@ public class VoiceFragment extends Fragment {
             @Override
             public void onRecognized(int resultType, RecognitionResult recognitionResult) {
                 if(resultType == OnRecognizeListener.TYPE_PARTIAL_RESULT){
-//                    中间结果
-//                    Log.d("----------","中间识别结果:"+recognitionResult.getAsrResult());
+                    //中间结果
                 }else if (resultType == OnRecognizeListener.TYPE_FINAL_RESULT){
                     if (recognitionResult.getError() == 0) {
-//                        Log.d("----------", "最终识别结果:" +recognitionResult.getAsrResult());
-//                        Log.d("----------","翻译结果:"+recognitionResult.getTransResult());
                         textRecognizeResult.setText(recognitionResult.getAsrResult());
                         textTranslateResult.setText(recognitionResult.getTransResult());
                     }else{
@@ -131,22 +145,19 @@ public class VoiceFragment extends Fragment {
 
         fiveLine = view.findViewById(R.id.fiveLine);
         //设置语音按钮监听事件
-        buttonVoiceTranslate = view.findViewById(R.id.button_voice_translate);
-        buttonVoiceTranslate.setOnTouchListener(new View.OnTouchListener() {
+        imgView = view.findViewById(R.id.img_voice_translate);
+        imgView.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 if (event.getAction() == MotionEvent.ACTION_DOWN){
-                    Log.d("++++++", "down");
                     fiveLine.setVisibility(View.VISIBLE);
-                    buttonVoiceTranslate.setVisibility(View.INVISIBLE);
+                    imgView.setVisibility(View.INVISIBLE);
                     client.startRecognize(from,to);
                 }else if ((event.getAction() == MotionEvent.ACTION_UP) || (event.getAction() == MotionEvent.ACTION_CANCEL)){
-                    Log.d("++++++", "up");
                     fiveLine.setVisibility(View.INVISIBLE);
-                    buttonVoiceTranslate.setVisibility(View.VISIBLE);
+                    imgView.setVisibility(View.VISIBLE);
                     client.stopRecognize();
                 }
-                buttonVoiceTranslate.performClick();
                 return true;
             }
         });

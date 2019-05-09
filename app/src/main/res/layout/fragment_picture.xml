@@ -67,7 +67,7 @@
         android:padding="4dp"
         android:scrollbars="vertical"
         android:textIsSelectable="true"
-        android:textSize="16sp"
+        android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView" />
@@ -85,6 +85,7 @@
         android:padding="4dp"
         android:scrollbars="vertical"
         android:textIsSelectable="true"
+        android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/edit_OCR_result" />
