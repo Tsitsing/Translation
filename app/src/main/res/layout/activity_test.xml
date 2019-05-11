@@ -26,4 +26,12 @@
             android:layout_weight="1"
             app:srcCompat="@mipmap/logo" />
     </LinearLayout>
+
+    <Button
+        android:id="@+id/button2"
+        android:layout_width="163dp"
+        android:layout_height="111dp"
+        android:text="Button"
+        tools:layout_editor_absoluteX="134dp"
+        tools:layout_editor_absoluteY="514dp" />
 </android.support.constraint.ConstraintLayout>

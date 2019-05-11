@@ -6,7 +6,9 @@
     <color name="colorPrimaryDark">#475164</color>
     <color name="colorAccent">#475164</color>
     <color name="class2text">#2C2C2C</color>
-    <color name="class3text">#4d4d4d</color>
+    <color name="class3text">#4D4D4D</color>
     <color name="gray_light">#EEEEEE</color>
+    <color name="gray_light_up">#F5F5F5</color>
     <color name="white_soft">#fcfcfc</color>
+    <color name="yellow_light">#ffff00</color>
 </resources>

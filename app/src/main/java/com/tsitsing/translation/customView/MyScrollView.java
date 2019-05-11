@@ -32,7 +32,7 @@ public class MyScrollView extends ScrollView {
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         try {
             //此处是关键，设置控件高度在此替换成自己需要的高度
-            heightMeasureSpec = MeasureSpec.makeMeasureSpec(800, MeasureSpec.AT_MOST);
+            heightMeasureSpec = MeasureSpec.makeMeasureSpec(750, MeasureSpec.AT_MOST);
 
         } catch (Exception e) {
             e.printStackTrace();

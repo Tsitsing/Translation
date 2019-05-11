@@ -5,7 +5,7 @@
     <string name="nav_picture">Picture</string>
     <string name="nav_dictionary">Dictionary</string>
     <string name="nav_my">My</string>
-    <string name="text_input">Input text</string>
+    <string name="text_input">Input text, press Enter to query</string>
     <string name="content_description_picture_translate">the picture was translated</string>
     <string name="recognize_result">Recognize result</string>
     <string name="translate_result">Translate result</string>
@@ -26,9 +26,12 @@
     <string name="btn_submit">Sign up</string>
     <string name="btn_addPlan">Add plan</string>
     <string name="btn_signOut">SIGN OUT</string>
+    <string name="btn_about">About</string>
+    <string name="btn_manageAccount">Manage Account</string>
     <!--button name ending-->
 
     <!--textView name beginning-->
+    <string name="textView_uploadPic">Click here to upload picture for translation</string>
     <string name="textView_dynamic">Dynamic</string>
     <string name="textView_userName">Sign in</string>
     <string name="textView_register">Sign up</string>
@@ -47,6 +50,7 @@
     <string name="textView_trans">Translate result :</string>
     <string name="textView_followers">Followers</string>
     <string name="textView_following">Following</string>
+    <string name="textVeiw_keyWords">Key words</string>
     <!--textView name ending-->
 
     <!--editText name beginning-->
@@ -72,7 +76,7 @@
     <string name="please_signIn">Haven\'t Sign in, please Sign in first</string>
     <string name="no_such_word">No such word</string>
     <string name="first_word">It\'s the first word</string>
-
-    <!-- Error messages -->
+    <string name="collection_success">Collection success</string>
+    <string name="collection_failure">Collection failure</string>
     <!--Toast content ending-->
 </resources>

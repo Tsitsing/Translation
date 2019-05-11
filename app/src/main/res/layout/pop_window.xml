@@ -10,33 +10,35 @@
 
     <Button
         android:id="@+id/button_album"
+        style="@style/Widget.AppCompat.Button.Borderless"
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:background="@drawable/shape_top_radius"
+        android:background="@drawable/shape_rectangle"
         android:text="@string/btn_album"
-        android:textColor="@color/theme"
+        android:textColor="@android:color/background_dark"
         android:textSize="18sp" />
 
     <ImageView
         android:id="@+id/imageView3"
         android:layout_width="match_parent"
-        android:layout_height="1dp"
-        app:srcCompat="@android:color/darker_gray" />
+        android:layout_height="2dp"
+        app:srcCompat="@color/gray_light_up" />
 
     <Button
         android:id="@+id/button_take_photo"
+        style="@style/Widget.AppCompat.Button.Borderless"
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:background="@drawable/shape_rectangle"
         android:text="@string/btn_photo"
-        android:textColor="@color/theme"
+        android:textColor="@android:color/background_dark"
         android:textSize="18sp" />
 
     <ImageView
         android:id="@+id/imageView2"
         android:layout_width="match_parent"
-        android:layout_height="5dp"
-        app:srcCompat="@android:color/darker_gray" />
+        android:layout_height="6dp"
+        app:srcCompat="@color/gray_light_up" />
 
     <Button
         android:id="@+id/button_cancel"
@@ -45,6 +47,6 @@
         android:layout_marginBottom="0dp"
         android:background="@drawable/shape_rectangle"
         android:text="@string/btn_cancel"
-        android:textColor="@color/theme"
+        android:textColor="@android:color/background_dark"
         android:textSize="18sp" />
 </LinearLayout>

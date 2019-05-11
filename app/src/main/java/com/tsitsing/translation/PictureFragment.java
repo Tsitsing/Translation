@@ -23,9 +23,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -42,7 +45,9 @@ import com.tsitsing.translation.interfaces.BasicCallBack;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 import static android.app.Activity.RESULT_OK;
@@ -63,6 +68,7 @@ public class PictureFragment extends Fragment {
     private static final int TAKE_PHOTO = 20;
     private static final int MESSAGE_WHAT = 100;
     private final String[] permissionArray = {Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE};
+    private Spinner spinnerSource,spinnerDest;
 
     private static final String TAG = "MyTAG";
 
@@ -72,8 +78,8 @@ public class PictureFragment extends Fragment {
     private BasicCallBack callBack;
     private String ocrResult = "";
     private boolean hasGotToken = false;
-    private String from = "zh";
-    private String to = "en";
+    private String from;
+    private String to;
     private Bitmap bitmap;
     private PPTVLoading pptvLoading;
 
@@ -87,13 +93,69 @@ public class PictureFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_picture, container, false);
+        spinnerSource = view.findViewById(R.id.spinner_pic_source);
+        spinnerDest = view.findViewById(R.id.spinner_pic_dest);
+
+        //用于存放简单数据
+        final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(getContext(), R.layout.spinner_item, getData());
+        final ArrayAdapter<String> arrayAdapter2 = new ArrayAdapter<>(getContext(),R.layout.spinner_item,getData2());
+        spinnerSource.setAdapter(arrayAdapter);
+        spinnerDest.setAdapter(arrayAdapter2);
+        //在指定位置弹出
+        spinnerSource.setDropDownHorizontalOffset(50);
+        spinnerSource.setDropDownVerticalOffset(110);
+        spinnerDest.setDropDownHorizontalOffset(1030);
+        spinnerDest.setDropDownVerticalOffset(110);
+
+        //设置源语言选择监听事件
+        spinnerSource.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                SelectLanguage selectFrom = new SelectLanguage();
+                from = selectFrom.getLangCode(parent.getItemAtPosition(position).toString());
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
+        //设置目标语言选择监听事件
+        spinnerDest.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                SelectLanguage selectTo = new SelectLanguage();
+                to = selectTo.getLangCode(parent.getItemAtPosition(position).toString());
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
+        //交换源语言与目标语言
+        ImageView imgSwitch = view.findViewById(R.id.img_pic_switch);
+        imgSwitch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //先获取当前选中的item
+                String srcSelected = (String) spinnerSource.getSelectedItem();
+                String dstSelected = (String) spinnerDest.getSelectedItem();
+                //通过适配器获取对应item的位置
+                int srcTarget = arrayAdapter.getPosition(dstSelected);
+                int dstTarget = arrayAdapter2.getPosition(srcSelected);
+                if (srcTarget != -1 && dstTarget != -1) {//值为-1时说明不存在此item
+                    //根据位置重新设定当前spinner的选择
+                    spinnerSource.setSelection(srcTarget, true);
+                    spinnerDest.setSelection(dstTarget, true);
+                } else {
+                    Toast.makeText(getContext(), R.string.toast_canNotSwitch, Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
         //申请权限
         if (!(PermissionUtil.isOwnPermission(getActivity(), Manifest.permission.CAMERA)) ||
                 !(PermissionUtil.isOwnPermission(getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE))) {
             PermissionUtil.requestPermission(getActivity(), permissionArray, CAMERA_AND_WRITE_REQUEST);
         }
-        Button button = view.findViewById(R.id.button);
-        button.setOnClickListener(new View.OnClickListener() {
+        ImageView imgPicUpload = view.findViewById(R.id.im_pic_upload);
+        imgPicUpload.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 selectPicture();
@@ -102,6 +164,28 @@ public class PictureFragment extends Fragment {
         //配置OCR接口token
         initAccessToken();
         return view;
+    }
+
+    private List<String> getData(){
+        List<String> list = new ArrayList<>();
+        list.add("英文");
+        list.add("中文");
+        list.add("日语");
+        list.add("法语");
+        list.add("韩语");
+        list.add("繁体");
+        return list;
+    }
+
+    private List<String> getData2(){
+        List<String> list = new ArrayList<String>();
+        list.add("中文");
+        list.add("英文");
+        list.add("日语");
+        list.add("法语");
+        list.add("韩语");
+        list.add("繁体");
+        return list;
     }
 
     //handler可能会存在内存泄露，稍后解决
@@ -137,9 +221,12 @@ public class PictureFragment extends Fragment {
                             public void doSuccess(String translated) {
                                 TextView textViewOCRResult = getView().findViewById(R.id.edit_OCR_result);
                                 TextView textViewTranslateResult = getView().findViewById(R.id.edit_translate_result);
-                                ImageView imageView = getView().findViewById(R.id.imageView);
+                                ImageView imageView = getView().findViewById(R.id.im_pic_upload);
                                 pptvLoading.setVisibility(View.INVISIBLE);
+                                //翻译完成，设置背景图片
                                 imageView.setImageBitmap(bitmap);
+                                TextView tvPicUpload = getView().findViewById(R.id.tv_pic_upload);
+                                tvPicUpload.setVisibility(View.INVISIBLE);
                                 textViewOCRResult.setText(ocrResult);
                                 textViewTranslateResult.setText(translated);
                             }

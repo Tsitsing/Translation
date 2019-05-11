@@ -6,7 +6,7 @@
     <string name="nav_home">主页</string>
     <string name="nav_my">我的</string>
     <string name="nav_voice">语音翻译</string>
-    <string name="text_input">输入文本</string>
+    <string name="text_input">输入文本,按回车键查询</string>
     <string name="btn_translate">翻译</string>
     <string name="btn_start">开始</string>
     <string name="btn_stop">结束</string>
@@ -62,4 +62,10 @@
     <string name="btn_followingList">关注列表</string>
     <string name="btn_learnedWords">已背单词</string>
     <string name="toast_canNotSwitch">不能交换源语言与目标语言</string>
+    <string name="textVeiw_keyWords">重点词汇</string>
+    <string name="textView_uploadPic">点击此处上传需要翻译的图片</string>
+    <string name="collection_failure">收藏失败</string>
+    <string name="collection_success">收藏成功</string>
+    <string name="btn_about">关于</string>
+    <string name="btn_manageAccount">账户管理</string>
 </resources>
