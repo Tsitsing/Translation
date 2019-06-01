@@ -40,7 +40,7 @@ public class DetailActivity extends AppCompatActivity {
         textViewPronunciation = findViewById(R.id.textV_recite_pronunciation);
         textViewTranslation = findViewById(R.id.textV_recite_translation);
         textViewDefinition = findViewById(R.id.textV_recite_definition);
-        btnVoice = findViewById(R.id.btn_reciteVoice);
+//        btnVoice = findViewById(R.id.btn_reciteVoice);
         btnLearned = findViewById(R.id.btn_reciteLearned);
         //获取用户名，计划名
         MyApplication application = (MyApplication) getApplication();
