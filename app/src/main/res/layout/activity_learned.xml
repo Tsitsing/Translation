@@ -4,10 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".CollectionActivity">
+    tools:context=".LearnedActivity">
 
     <LinearLayout
-        android:id="@+id/linearLayout6"
+        android:id="@+id/linearLayout4"
         android:layout_width="0dp"
         android:layout_height="50dp"
         android:background="@color/theme"
@@ -17,63 +17,69 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView
-            android:id="@+id/textView27"
+            android:id="@+id/textView26"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="收藏"
+            android:text="已背单词"
             android:textColor="@color/white"
             android:textSize="18sp" />
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/linearLayout3"
+        android:id="@+id/linearLayout5"
         android:layout_width="0dp"
         android:layout_height="40dp"
+        android:background="@drawable/shape_round"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout6">
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout4">
 
         <TextView
-            android:id="@+id/textView21"
+            android:id="@+id/textView28"
             android:layout_width="60dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="源内容"
-            android:textColor="@color/class3text"
-            android:textSize="16dp" />
-
-        <TextView
-            android:id="@+id/textView24"
-            android:layout_width="60dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="翻译内容"
+            android:paddingStart="0dp"
+            android:paddingEnd="2dp"
+            android:text="单词"
             android:textColor="@color/class3text"
             android:textSize="16sp" />
 
         <TextView
-            android:id="@+id/textView25"
+            android:id="@+id/textView29"
+            android:layout_width="60dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:paddingStart="0dp"
+            android:paddingEnd="2dp"
+            android:text="计划"
+            android:textColor="@color/class3text"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/textView30"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="收藏日期"
+            android:paddingStart="0dp"
+            android:paddingEnd="2dp"
+            android:text="日期"
             android:textColor="@color/class3text"
             android:textSize="16sp" />
     </LinearLayout>
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/rv_collection"
+        android:id="@+id/rv_recite"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout3" />
-
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout5" />
 </android.support.constraint.ConstraintLayout>

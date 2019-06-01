@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import com.baidu.translate.asr.data.Language;
 import com.tsitsing.translation.CollectionActivity;
+import com.tsitsing.translation.LearnedActivity;
 import com.tsitsing.translation.MyApplication;
 import com.tsitsing.translation.R;
 import com.tsitsing.translation.SignInActivity;
@@ -108,6 +109,16 @@ public class MyFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getContext(), CollectionActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        //跳转至收藏
+        Button btnLearned = view.findViewById(R.id.btn_my_learned);
+        btnLearned.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getContext(), LearnedActivity.class);
                 startActivity(intent);
             }
         });
