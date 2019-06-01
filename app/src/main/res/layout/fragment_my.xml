@@ -127,6 +127,7 @@
             android:orientation="vertical">
 
             <Button
+                android:foreground="?android:attr/selectableItemBackground"
                 android:id="@+id/btn_my_dynamic"
                 style="@style/Widget.AppCompat.Button.Borderless"
                 android:layout_width="match_parent"
@@ -140,7 +141,8 @@
                 android:textSize="16sp" />
 
             <Button
-                android:id="@+id/button10"
+                android:foreground="?android:attr/selectableItemBackground"
+                android:id="@+id/btn_my_collection"
                 style="@style/Widget.AppCompat.Button.Borderless"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
@@ -153,6 +155,7 @@
                 android:textSize="16sp" />
 
             <Button
+                android:foreground="?android:attr/selectableItemBackground"
                 android:id="@+id/button5"
                 style="@style/Widget.AppCompat.Button.Borderless"
                 android:layout_width="match_parent"
@@ -166,6 +169,7 @@
                 android:textSize="16sp" />
 
             <Button
+                android:foreground="?android:attr/selectableItemBackground"
                 android:id="@+id/button6"
                 style="@style/Widget.AppCompat.Button.Borderless"
                 android:layout_width="match_parent"
@@ -179,6 +183,7 @@
                 android:textSize="16sp" />
 
             <Button
+                android:foreground="?android:attr/selectableItemBackground"
                 android:id="@+id/button7"
                 style="@style/Widget.AppCompat.Button.Borderless"
                 android:layout_width="match_parent"
@@ -192,6 +197,7 @@
                 android:textSize="16sp" />
 
             <Button
+                android:foreground="?android:attr/selectableItemBackground"
                 android:id="@+id/button8"
                 style="@style/Widget.AppCompat.Button.Borderless"
                 android:layout_width="match_parent"
@@ -211,13 +217,16 @@
                 android:layout_height="60dp"
                 android:layout_marginTop="1dp"
                 android:background="@color/white_soft"
+                android:foreground="?android:attr/selectableItemBackground"
                 android:gravity="center_vertical"
                 android:padding="20dp"
+                android:paddingStart="20dp"
                 android:paddingEnd="20dp"
                 android:text="@string/btn_about"
                 android:textSize="16sp" />
 
             <Button
+                android:foreground="?android:attr/selectableItemBackground"
                 android:id="@+id/btn_my_signOut"
                 style="@style/Widget.AppCompat.Button.Borderless"
                 android:layout_width="match_parent"

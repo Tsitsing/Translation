@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_gravity="bottom"
@@ -13,7 +12,9 @@
         style="@style/Widget.AppCompat.Button.Borderless"
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:background="@drawable/shape_rectangle"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:background="@drawable/shape_top_radius"
         android:text="@string/btn_album"
         android:textColor="@android:color/background_dark"
         android:textSize="18sp" />
@@ -22,6 +23,8 @@
         android:id="@+id/imageView3"
         android:layout_width="match_parent"
         android:layout_height="2dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
         app:srcCompat="@color/gray_light_up" />
 
     <Button
@@ -29,6 +32,8 @@
         style="@style/Widget.AppCompat.Button.Borderless"
         android:layout_width="match_parent"
         android:layout_height="60dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
         android:background="@drawable/shape_rectangle"
         android:text="@string/btn_photo"
         android:textColor="@android:color/background_dark"
@@ -38,14 +43,19 @@
         android:id="@+id/imageView2"
         android:layout_width="match_parent"
         android:layout_height="6dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
         app:srcCompat="@color/gray_light_up" />
 
     <Button
         android:id="@+id/button_cancel"
+        style="@style/Widget.AppCompat.Button.Borderless"
         android:layout_width="match_parent"
         android:layout_height="60dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
         android:layout_marginBottom="0dp"
-        android:background="@drawable/shape_rectangle"
+        android:background="@drawable/shape_bottom_radius"
         android:text="@string/btn_cancel"
         android:textColor="@android:color/background_dark"
         android:textSize="18sp" />

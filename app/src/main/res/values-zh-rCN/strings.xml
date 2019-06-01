@@ -68,4 +68,12 @@
     <string name="collection_success">收藏成功</string>
     <string name="btn_about">关于</string>
     <string name="btn_manageAccount">账户管理</string>
+    <string name="recite_title">操作提示</string>
+    <string name="recite_message">左右滑动切换上下页。点击表情按钮标记为已背</string>
+    <string name="message_delete">删除此计划？</string>
+    <string name="title_delete">删除</string>
+    <string name="yes">确定</string>
+    <string name="cancel">取消</string>
+    <string name="message_coll_delete">删除此收藏？</string>
+    <string name="toast_delete_success">删除成功</string>
 </resources>

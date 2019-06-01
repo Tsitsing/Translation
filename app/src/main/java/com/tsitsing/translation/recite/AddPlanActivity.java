@@ -88,8 +88,6 @@ public class AddPlanActivity extends AppCompatActivity {
                 ConstraintLayout daysView =(ConstraintLayout) layoutManagerDays.findViewByPosition(daysPosition + 3);
                 TextView daysTV = (TextView) daysView.getViewById(R.id.tv_item);
                 int daysNum = Integer.parseInt(daysTV.getText().toString());
-
-                Log.d("______userName______", userName + planName + wordsNum);
                 //添加计划
                 checkPlan(userName, planName, PlanAPIType.GET_INFO, wordsNum);
 

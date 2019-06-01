@@ -114,7 +114,7 @@
         android:paddingStart="4dp"
         android:paddingEnd="4dp"
         android:text="@string/textView_recog"
-        android:textColor="@android:color/black"
+        android:textColor="@color/class3text"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -133,7 +133,7 @@
         android:paddingStart="4dp"
         android:paddingEnd="4dp"
         android:text="@string/textView_trans"
-        android:textColor="@android:color/black"
+        android:textColor="@color/class3text"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -141,6 +141,7 @@
         app:layout_constraintTop_toBottomOf="@+id/text_recognize_result" />
 
     <ImageView
+        android:foreground="?android:attr/selectableItemBackground"
         android:id="@+id/img_voice_switch"
         android:layout_width="32dp"
         android:layout_height="32dp"

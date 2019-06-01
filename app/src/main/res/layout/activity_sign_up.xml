@@ -67,6 +67,7 @@
         app:layout_constraintTop_toBottomOf="@+id/register_password" />
 
     <Button
+        android:foreground="?android:attr/selectableItemBackground"
         android:id="@+id/button_submit"
         android:layout_width="300dp"
         android:layout_height="wrap_content"

@@ -20,7 +20,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".mySpace.DynamicActivity"></activity>
+        <activity android:name=".CollectionActivity"></activity>
+        <activity android:name=".mySpace.DynamicActivity" />
         <activity android:name=".TestActivity" />
         <activity android:name=".recite.AddPlanActivity" />
         <activity android:name=".recite.PlansActivity" />

@@ -1,9 +1,14 @@
 package com.tsitsing.translation.recite;
 
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Handler;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageView;
@@ -16,6 +21,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.tsitsing.translation.emun.PlanAPIType;
 import com.tsitsing.translation.interfaces.BasicCallBack;
 import com.tsitsing.translation.MyApplication;
 import com.tsitsing.translation.R;
@@ -32,6 +38,7 @@ public class PlansActivity extends AppCompatActivity {
     private int ADD_PLAN_REQUEST = 10;
     private String userName;
     private LinearLayout plansContainer;
+    private Handler handler = new Handler();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,7 +64,7 @@ public class PlansActivity extends AppCompatActivity {
     }
 
     //生成计划单元
-    private LinearLayout generatePlanUnit (final String planName) {
+    private LinearLayout generatePlanUnit(final String planName) {
         //计划单元layout
         LinearLayout linearLayout = new LinearLayout(getApplicationContext());
         linearLayout.setOrientation(LinearLayout.VERTICAL);
@@ -76,10 +83,27 @@ public class PlansActivity extends AppCompatActivity {
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(),DetailActivity.class);
+                Intent intent = new Intent(getApplicationContext(), DetailActivity.class);
                 intent.putExtra("planName", planName);
                 //跳转至背词界面
                 startActivity(intent);
+            }
+        });
+        imageView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(PlansActivity.this)
+                        .setTitle(R.string.title_delete)
+                        .setMessage(R.string.message_delete)
+                        .setPositiveButton(R.string.title_delete, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                deletePlan(planName);
+                            }
+                        })
+                        .setNegativeButton(R.string.cancel, null);
+                builder.show();
+                return true;
             }
         });
         linearLayout.addView(imageView);
@@ -92,13 +116,28 @@ public class PlansActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
             if (requestCode == ADD_PLAN_REQUEST) {
-                displayPlans();
+                new Thread(){
+                    @Override
+                    public void run() {
+                        try {
+                            Thread.sleep(500);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                        handler.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                displayPlans();
+                            }
+                        });
+                    }
+                }.start();
             }
         }
     }
 
     //显示已有计划的方法
-    private void displayPlans () {
+    private void displayPlans() {
         getAllPlans(userName, new BasicCallBack() {
             @Override
             public void doSuccess() {
@@ -115,7 +154,7 @@ public class PlansActivity extends AppCompatActivity {
                 list = Arrays.asList(listStr.split(","));
                 if (!(list.toString().equals("[]"))) {
                     plansContainer.removeAllViews();
-                    for (int i = 0; i <list.size(); i++) {
+                    for (int i = 0; i < list.size(); i++) {
                         LinearLayout layout = generatePlanUnit(list.get(i));
                         plansContainer.addView(layout);
                     }
@@ -130,7 +169,7 @@ public class PlansActivity extends AppCompatActivity {
     }
 
     //查询所有已学计划
-    private void getAllPlans (final String userName, final BasicCallBack callBack) {
+    private void getAllPlans(final String userName, final BasicCallBack callBack) {
         final String PLAN_HOST = "http://chieching.cn/TranslateServer/Existence";
         final String TAG = "getAllPlans";
         final RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
@@ -145,10 +184,37 @@ public class PlansActivity extends AppCompatActivity {
             public void onErrorResponse(VolleyError error) {
 
             }
-        }){
+        }) {
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
                 params.put("userName", userName);
+                return params;
+            }
+        };
+        getPlansRequest.setTag(TAG);
+        requestQueue.add(getPlansRequest);
+    }
+    private void deletePlan (final String planName) {
+        final String PLAN_HOST = "http://chieching.cn/TranslateServer/Plan";
+        final String TAG = "deletePlans";
+        final RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
+        requestQueue.cancelAll(TAG);
+        StringRequest getPlansRequest = new StringRequest(Request.Method.POST, PLAN_HOST, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                displayPlans();
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        }) {
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<>();
+                params.put("planName",planName);
+                params.put("userName", userName);
+                params.put("type", PlanAPIType.DELETE_PLAN.toString());
                 return params;
             }
         };

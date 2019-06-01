@@ -103,6 +103,7 @@
     </ScrollView>
 
     <ImageView
+        android:foreground="?android:attr/selectableItemBackground"
         android:id="@+id/img_home_switch"
         android:layout_width="32dp"
         android:layout_height="32dp"
@@ -155,7 +156,7 @@
         android:paddingStart="4dp"
         android:paddingEnd="4dp"
         android:text="@string/translate_result"
-        android:textColor="@android:color/black"
+        android:textColor="@color/class3text"
         android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="@+id/text_result"
         app:layout_constraintStart_toStartOf="@+id/text_result"
@@ -173,7 +174,7 @@
         android:paddingStart="4dp"
         android:paddingEnd="4dp"
         android:text="@string/textVeiw_keyWords"
-        android:textColor="@android:color/black"
+        android:textColor="@color/class3text"
         android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="@+id/scroll_home_words"
         app:layout_constraintStart_toStartOf="@+id/scroll_home_words"
@@ -191,7 +192,7 @@
         android:paddingStart="4dp"
         android:paddingEnd="4dp"
         android:text="@string/text_input"
-        android:textColor="@android:color/black"
+        android:textColor="@color/class3text"
         android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="@+id/text_input"
         app:layout_constraintStart_toStartOf="@+id/text_input"

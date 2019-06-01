@@ -14,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.baidu.translate.asr.data.Language;
+import com.tsitsing.translation.CollectionActivity;
 import com.tsitsing.translation.MyApplication;
 import com.tsitsing.translation.R;
 import com.tsitsing.translation.SignInActivity;
@@ -93,10 +94,21 @@ public class MyFragment extends Fragment {
                 if (myApplication.getIsSignIn()) {
                     myApplication.setIsSignIn(false);
                     myApplication.setUserName(null);
+                    myApplication.setFirstSignIn(true);
                     Intent intent = new Intent(getContext(), SignInActivity.class);
                     startActivityForResult(intent, SIGN_IN_REQUEST);
                     textUserName.setText(getContext().getResources().getString(R.string.btn_SignIn));
                 }
+            }
+        });
+
+        //跳转至收藏
+        Button btnCollection = view.findViewById(R.id.btn_my_collection);
+        btnCollection.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getContext(), CollectionActivity.class);
+                startActivity(intent);
             }
         });
 

@@ -5,6 +5,15 @@ import android.app.Application;
 public class MyApplication extends Application {
     private boolean isSignIn = false;//登录状态
     private String userName = null;//用户名
+    private boolean isFirstSignIn = true;//是否为第一次登录
+
+    public boolean isFirstSignIn() {
+        return isFirstSignIn;
+    }
+
+    public void setFirstSignIn(boolean firstSignIn) {
+        isFirstSignIn = firstSignIn;
+    }
 
     public boolean getIsSignIn () {
         return this.isSignIn;

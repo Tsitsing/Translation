@@ -31,8 +31,8 @@ class GenerateCard {
         layoutSub.setOrientation(LinearLayout.HORIZONTAL);
         //放置收藏图标的view
         ImageView collectView = new ImageView(context);
-        collectView.setBackground(context.getDrawable(R.color.colorAccent));
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(100, ViewGroup.LayoutParams.MATCH_PARENT);
+        collectView.setBackground(context.getDrawable(R.mipmap.collection));
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(40, 40);
         collectView.setLayoutParams(params);
         //放置单词和音标TextView
         TextView wordView = new TextView(context);

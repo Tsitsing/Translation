@@ -323,13 +323,11 @@ public class HomeFragment extends Fragment {
                             }, new Response.ErrorListener() {
                                 @Override
                                 public void onErrorResponse(VolleyError error) {
-                                    Log.d("++++++++++", "response error");
                                 }
                             }) {
                                 protected Map<String, String> getParams() {
                                     Map<String, String> params = new HashMap<>();
                                     params.put("params", result);
-                                    Log.d("------params result------", result);
                                     return params;
                                 }
                             };

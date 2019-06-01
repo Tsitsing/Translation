@@ -25,6 +25,7 @@ public class RecycleAdapter extends RecyclerView.Adapter<RecycleAdapter.MyHolder
     @NonNull
     @Override
     public MyHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+        //绑定item
         View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item, viewGroup, false);
         MyHolder myHolder = new MyHolder(view);
         return myHolder;
@@ -32,6 +33,7 @@ public class RecycleAdapter extends RecyclerView.Adapter<RecycleAdapter.MyHolder
 
     @Override
     public void onBindViewHolder(@NonNull MyHolder myHolder, int i) {
+        //绑定数据
         myHolder.tv.setText(list.get(i));
     }
 

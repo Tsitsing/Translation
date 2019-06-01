@@ -2,6 +2,7 @@ package com.tsitsing.translation.recite;
 
 import android.content.Intent;
 import android.os.Handler;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MotionEvent;
@@ -65,6 +66,15 @@ public class DetailActivity extends AppCompatActivity {
                 });
             }
         }.start();
+        //弹窗提示操作
+        if (application.isFirstSignIn()) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(this)
+                    .setTitle(R.string.recite_title)
+                    .setMessage(R.string.recite_message)
+                    .setPositiveButton(R.string.yes, null);
+            builder.show();
+            application.setFirstSignIn(false);
+        }
         //监听上下页
         btnEvent();
     }

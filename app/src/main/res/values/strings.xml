@@ -1,4 +1,13 @@
 <resources>
+    <!--alert start-->
+    <string name="title_delete">Delete</string>
+    <string name="cancel">Cancel</string>
+    <string name="message_delete">Delete this plan?</string>
+    <string name="message_coll_delete">Delete this collection?</string>
+    <string name="recite_title">Option tips</string>
+    <string name="yes">Yes</string>
+    <string name="recite_message">Slide left and right to switch up and down pages. Click the expression button to mark it as learned</string>
+    <!--alert end-->
     <string name="app_name">Translation</string>
     <string name="nav_home">Home</string>
     <string name="nav_voice">Voice</string>
@@ -63,6 +72,7 @@
     <!--editText name ending-->
 
     <!--Toast content beginning-->
+    <string name="toast_delete_success">Delete success</string>
     <string name="toast_canNotSwitch">Can\'t not exchange source language and target language</string>
     <string name="toast_start_recognize">start recognize</string>
     <string name="register_success">Succeed to Sign up</string>

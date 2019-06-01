@@ -23,6 +23,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.view.animation.Animation;
+import android.view.animation.TranslateAnimation;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -401,6 +403,8 @@ public class PictureFragment extends Fragment {
 
         final PopupWindow popupWindow = new PopupWindow(view, width, height);
         popupWindow.setFocusable(true);
+        popupWindow.setAnimationStyle(R.style.PopupAnimation);
+
         //popupWindow.setOutsideTouchable(true);//点击外部消失
 
 
