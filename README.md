@@ -1,2 +1,2 @@
 # Translation
-描述
+A Translation APP
